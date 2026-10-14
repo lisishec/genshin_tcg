@@ -53,7 +53,7 @@ const T = {
 
     sucrose: {
         n: 'Sucrose', e: '📖', el: 'anemo', mx: 2, m: [
-            { n: 'Vento Preciso', c: 2, el: 'anemo', d: 1 },
+            { n: 'Vento Preciso', c: 1, el: 'anemo', d: 1 },
             { n: 'Vento Rodopiante', c: 3, el: 'anemo', d: 3, sw: 1 },
             { n: 'Frasco Caótico', c: 3, el: 'anemo', d: 4, b: 1 }
         ]
@@ -69,7 +69,7 @@ const T = {
 
     mona: {
         n: 'Mona', e: '🔮', el: 'hydro', mx: 3, m: [
-            { n: 'Raio d\'Água', c: 2, el: 'hydro', d: 1 },
+            { n: 'Raio d\'Água', c: 1, el: 'hydro', d: 1 },
             { n: 'Reflexo', c: 3, el: 'hydro', d: 1, sm: 'reflexo' },
             { n: 'Estrela Fatal', c: 3, el: 'hydro', d: 5, b: 1 }
         ]
@@ -77,7 +77,7 @@ const T = {
 
     barbara: {
         n: 'Barbara', e: '🎤', el: 'hydro', mx: 3, m: [
-            { n: 'Gotas Cantantes', c: 2, el: 'hydro', d: 1 },
+            { n: 'Gotas Cantantes', c: 1, el: 'hydro', d: 1 },
             { n: 'Melodia do Lar', c: 3, el: 'hydro', sm: 'melodia' },
             { n: 'Brilho de Estrela', c: 3, el: 'hydro', d: 1, cura: 4, b: 1 }
         ]
@@ -109,9 +109,9 @@ const T = {
 
     noelle: {
         n: 'Noelle', e: '🛡️', el: 'geo', mx: 2, m: [
-            { n: 'Lâminas do Vento', c: 2, el: 'phys', d: 1 },
-            { n: 'Vendaval do Grande Lobo', c: 3, el: 'geo', d: 2, esc: 3 },
-            { n: 'Tempestade dos Quatro Ventos', c: 3, el: 'geo', d: 5, b: 1 }
+            { n: 'Espada Favonius', c: 2, el: 'phys', d: 1 },
+            { n: 'Couraça do Coração', c: 3, el: 'geo', d: 2, esc: 3 },
+            { n: 'Grande Limpeza', c: 3, el: 'geo', d: 5, b: 1 }
         ]
     },
 
@@ -173,7 +173,7 @@ const T = {
 
     kokomi: {
         n: 'Sangonomiya Kokomi', e: '🪼', el: 'hydro', mx: 2, m: [
-            { n: 'Dança das Marés', c: 2, el: 'phys', d: 2 },
+            { n: 'Dança das Marés', c: 1, el: 'hydro', d: 1 },
             { n: 'Juramento das Águas', c: 3, el: 'hydro', d: 2, sm: 'bakakura' },
             { n: 'Cerimônia da Lua Oceânica', c: 3, el: 'hydro', d: 3, b: 1, cura: 2 }
         ]
@@ -245,7 +245,7 @@ const T = {
 
     wriothesley: {
         n: 'Wriothesley', e: '🥊', el: 'cryo', mx: 2, m: [
-            { n: 'Punhos Congelantes', c: 2, el: 'phys', d: 2 },
+            { n: 'Punhos Congelantes', c: 2, el: 'cryo', d: 2 },
             { n: 'Investida Glacial', c: 3, el: 'cryo', d: 3 },
             { n: 'Execução da Geada Implacável', c: 3, el: 'cryo', d: 4, b: 1 }
         ]
@@ -382,7 +382,7 @@ function init() { const ids = Object.keys(T).sort(() => Math.random() - .5); SCR
 
 const say = t => G.log = t;
 const tgi = () => G.tg != null && G.o.ch[G.tg] && G.o.ch[G.tg].hp > 0 ? G.tg : G.o.a;
-const IA = { prep: 1000, pos: 1200 };
+const IA = { prep: 1500, pos: 1200 };
 function est(f, ti, m) {
     const t = f.ch[ti];
     if (m.el == 'phys' || !t.au || t.au == m.el) return 0;
@@ -426,7 +426,7 @@ function hit(f, el, d, ti) {
     }
     let base = d;
     if (t.sh > 0 && base > 0) { const a = Math.min(t.sh, base); t.sh -= a; base -= a; if (!r) r = 'Escudo' }
-    const tot = base + b;                                   // dano de reação (b) passa pelo escudo
+    const tot = base + b; // dano de reação (b) passa pelo escudo
     t.hp = Math.max(0, t.hp - tot);
     G.pops.push({ s: f === G.p ? 'p' : 'o', i, t: tot, r });
     if (t.hp <= 0) { t.au = null; t.sh = 0; f.sm = f.sm.filter(x => x.own !== i); if (i == f.a) autoSw(f) }   // dono morreu => invocações somem

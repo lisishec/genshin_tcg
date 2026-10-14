@@ -865,6 +865,7 @@ body {
     object-fit: contain;
     vertical-align: middle;
     margin-right: 4px;
+    border: none;
 }
 
 .din {
