@@ -25,6 +25,11 @@ const RX = {
     'electro,geo': ['Cristalizar', 1],
     'cryo,geo': ['Cristalizar', 1],
 };
+const SWIRL = {
+    direto: 2,                                         // dano extra no alvo atingido
+    indireto: 1,                                       // dano nos vizinhos (elemento espalhado)
+    elementos: ['pyro', 'hydro', 'electro', 'cryo']    // Geo e Dendro NÃO fazem Redemoinho
+};
 
 const T = {
     diluc: {
@@ -183,7 +188,7 @@ const T = {
         n: 'Arataki Itto', e: '👹', el: 'geo', mx: 2, m: [
             { n: 'Golpes do Oni', c: 2, el: 'phys', d: 2 },
             { n: 'Investida do Rei Demônio', c: 3, el: 'geo', d: 3, sm: 'ushi' },
-            { n: 'Fúria do Oni', c: 3, el: 'geo', d: 4, b: 1 }
+            { n: 'Fúria do Oni', c: 3, el: 'geo', d: 2, b: 1, imb: { el: 'geo', d: 4, dur: 1 } }
         ]
     },
 
@@ -215,14 +220,14 @@ const T = {
         n: 'Dori', e: '💜', el: 'electro', mx: 2, m: [
             { n: 'Golpe da Fortuna', c: 2, el: 'phys', d: 2 },
             { n: 'Espírito da Lâmpada', c: 3, el: 'electro', d: 1, sm: 'lampada' },
-            { n: 'Tesouro dos Mil Desejos', c: 3, el: 'electro', d: 3, b: 1, cura: 2 }
+            { n: 'Tesouro dos Mil Desejos', c: 3, el: 'electro', b: 1, cura: 4, curaAlvo: 'todos' }
         ]
     },
 
     dehya: {
         n: 'Dehya', e: '🔥', el: 'pyro', mx: 3, m: [
             { n: 'Presas da Areia', c: 2, el: 'phys', d: 2 },
-            { n: 'Égide das Chamas', c: 3, el: 'pyro', d: 3 },
+            { n: 'Égide das Chamas', c: 3, el: 'pyro', d: 3, imb: { el: 'pyro', d: 2, dur: 2 } },
             { n: 'Fúria da Leoa Flamejante', c: 3, el: 'pyro', d: 5, b: 1 }
         ]
     },
@@ -231,7 +236,7 @@ const T = {
         n: 'Furina', e: '💧', el: 'hydro', mx: 2, m: [
             { n: 'Solista das Marés', c: 2, el: 'phys', d: 2 },
             { n: 'Companhia das Águas', c: 3, el: 'hydro', d: 1, sm: 'salon' },
-            { n: 'Grande Finale: Aplausos Eternos', c: 3, el: 'hydro', d: 3, b: 1 }
+            { n: 'Grande Finale: Aplausos Eternos', c: 3, el: 'hydro', d: 3, b: 1, buff: 2 }
         ]
     },
 
@@ -262,7 +267,7 @@ const T = {
     skirk: {
         n: 'Skirk', e: '🌌', el: 'cryo', mx: 2, m: [
             { n: 'Cortes do Abismo', c: 2, el: 'phys', d: 2 },
-            { n: 'Ruptura Dimensional', c: 3, el: 'cryo', d: 4, imb: { el: 'cryo', d: 2, dur: 1 } },
+            { n: 'Ruptura Dimensional', c: 3, el: 'cryo', d: 4, imb: { el: 'cryo', d: 2, dur: 2 } },
             { n: 'Silêncio da Estrela Negra', c: 3, el: 'cryo', d: 5, b: 1 }
         ]
     },
@@ -293,8 +298,8 @@ const T = {
 
     kinich: {
         n: 'Kinich', e: '🦎', el: 'dendro', mx: 2, m: [
-            { n: 'Garras da Selva', c: 2, el: 'phys', d: 2 },
-            { n: 'Gancho do Caçador', c: 3, el: 'dendro', d: 3 },
+            { n: 'Garras da Selva', c: 2, el: 'phys', d: 3 },
+            { n: 'Gancho do Caçador', c: 3, el: 'dendro', d: 2 },
             { n: 'Juízo do Dragão Sauriano', c: 3, el: 'dendro', d: 4, b: 1 }
         ]
     },
@@ -310,7 +315,7 @@ const T = {
     columbina: {
         n: 'Columbina', e: '🌙', el: 'hydro', mx: 2, m: [
             { n: 'Lágrimas Celestiais', c: 2, el: 'hydro', d: 2 },
-            { n: 'Abraço do Luar', c: 3, el: 'hydro', d: 3 },
+            { n: 'Abraço do Luar', c: 3, el: 'hydro', d: 3, buff: 3 },
             { n: 'Canção do Eclipse Eterno', c: 3, el: 'hydro', d: 4, b: 1 }
         ]
     },
@@ -325,8 +330,8 @@ const T = {
 
     nefer: {
         n: 'Nefer', e: '🐍', el: 'dendro', mx: 2, m: [
-            { n: 'Lâminas do Véu Verde', c: 2, el: 'phys', d: 2 },
-            { n: 'Segredo das Sombras', c: 3, el: 'dendro', d: 3 },
+            { n: 'Lâminas do Véu Verde', c: 2, el: 'dendro', d: 2 },
+            { n: 'Segredo das Sombras', c: 3, el: 'dendro', d: 3, imb: { el: 'dendro', d: 2, dur: 2 } },
             { n: 'Enigma da Serpente Esmeralda', c: 3, el: 'dendro', d: 4, b: 1 }
         ]
     },
@@ -403,7 +408,16 @@ function pick(k) { const i = document.createElement('input'); i.type = 'file'; i
 const sl = ms => new Promise(r => setTimeout(r, ms));
 const st = document.getElementById('st');
 let G;
-function init() { const ids = Object.keys(T).sort(() => Math.random() - .5); SCR = 'game'; G = { tg: null, r: 1, p: mk(SV.team), o: mk(ids.slice(0, 3)), turn: 'p', busy: 0, over: null, pops: [], log: 'Sua vez! Gaste energia em ações.' }; render() }
+function init() {
+    musica('batalha', true); 
+    const ids = Object.keys(T).sort(() => Math.random() - .5); 
+    SCR = 'game'; 
+    G = { tg: null, r: 1, p: mk(SV.team), o: mk(ids.slice(0, 3)), 
+        turn: 'p', busy: 0, over: null, pops: [], 
+        log: 'Sua vez! Gaste energia em ações.' 
+    }; 
+    render();
+}
 
 const say = t => G.log = t;
 const tgi = () => G.tg != null && G.o.ch[G.tg] && G.o.ch[G.tg].hp > 0 ? G.tg : G.o.a;
@@ -538,8 +552,10 @@ function hit(f, el, d, ti) {
     const t = f.ch[i]; let b = 0, r = '', spread = null;
     if (el != 'phys') {
         if (t.au && t.au != el) {
-            if (el == 'anemo') { b = 1; r = 'Redemoinho'; spread = t.au; t.au = null }
-            else {
+            if (el == 'anemo') {
+                if (SWIRL.elementos.includes(t.au)) { b = SWIRL.direto; r = 'Redemoinho'; spread = t.au; t.au = null }
+                // com Geo/Dendro no alvo: nada acontece (o elemento continua lá)
+            } else {
                 const R = RX[[t.au, el].sort().join()];
                 if (R) { b = R[1]; r = R[0]; t.au = null; if (R[2] && i == f.a) f.fs = 1 }
             }
@@ -553,7 +569,7 @@ function hit(f, el, d, ti) {
     if (t.hp <= 0) { t.au = null; t.sh = 0; f.sm = f.sm.filter(x => x.own !== i); if (i == f.a) autoSw(f) }
     else if (f.fs && i == f.a) { f.a = nextAlive(f) }
     f.fs = 0;
-    if (spread) [i - 1, i + 1].forEach(j => { if (f.ch[j] && f.ch[j].hp > 0) hit(f, spread, 1, j) });
+    if (spread) [i - 1, i + 1].forEach(j => { if (f.ch[j] && f.ch[j].hp > 0) hit(f, spread, SWIRL.indireto, j) });
 }
 function can(s, mi) { const c = s.ch[s.a], t = T[c.k], m = t.m[mi]; return c.hp > 0 && s.pool >= m.c && (!m.b || c.cg >= t.mx) }
 function use(s, f, mi, ti, al) {
@@ -713,6 +729,46 @@ const hdr = () => `<div id="hh"><span><img src="./assets/logo.png" class="logo-j
 
 const tabs = () => `<div id="tabs"><button class="tab ${TAB == 'chars' ? 'on' : ''}" data-tab="chars">🃏 Personagens</button><button class="tab ${TAB == 'bg' ? 'on' : ''}" data-tab="bg">🖼️ Planos de fundo</button></div>`;
 
+const MUSICA = {
+    menu: ['assets/musica/menu-1.mp3', 'assets/musica/menu-2.mp3'],                                        // toca em sequência, em loop
+    batalha: ['assets/musica/batalha-1.mp3', 'assets/musica/batalha-2.mp3', 'assets/musica/batalha-3.mp3']  // sorteia uma; ao acabar, sorteia outra
+};
+
+const VOL_BASE = 0.2;      // volume máximo da música (0 a 1). O controle da tela abaixa a partir daqui até zero.
+const MUS = { vol: 1, mudo: false, a: null, modo: null, i: -1, on: false };
+try { Object.assign(MUS, JSON.parse(localStorage.getItem('gi_mus') || '{}')) } catch (e) { }
+const volFinal = () => MUS.mudo ? 0 : VOL_BASE * MUS.vol;
+const salvaMus = () => { try { localStorage.setItem('gi_mus', JSON.stringify({ vol: MUS.vol, mudo: MUS.mudo })) } catch (e) { } };
+function proxMusica() {
+    const L = MUSICA[MUS.modo]; if (!L || !L.length) return;
+    let i = MUS.i;
+    if (MUS.modo == 'batalha') { i = Math.random() * L.length | 0; if (L.length > 1) while (i == MUS.i) i = Math.random() * L.length | 0 }
+    else i = (i + 1) % L.length;
+    MUS.i = i;
+    if (MUS.a) { MUS.a.onended = null; MUS.a.pause() }
+    const a = new Audio(L[i]); a.volume = volFinal(); a.onended = proxMusica; MUS.a = a;
+    a.play().catch(() => { });
+}
+
+function musica(modo, forcar) {                // modo: 'menu' ou 'batalha'
+    if (MUS.modo == modo && !forcar) return;
+    MUS.modo = modo; MUS.i = -1;
+    if (MUS.on) proxMusica();
+}
+
+addEventListener('pointerdown', () => { if (!MUS.on) { MUS.on = true; proxMusica() } });
+(function () {                                  // botãozinho de mutar + controle de volume (canto superior direito)
+    const d = document.createElement('div'); d.id = 'mus';
+    d.innerHTML = '<button id="mt" title="Mutar / ativar música">🔊</button><input id="mv" type="range" min="0" max="100" value="100" title="Volume da música">';
+    document.body.appendChild(d);
+    const mt = d.querySelector('#mt'), mv = d.querySelector('#mv');
+    const ui = () => { mv.value = MUS.mudo ? 0 : Math.round(MUS.vol * 100); mt.textContent = MUS.mudo || MUS.vol == 0 ? '🔇' : MUS.vol < .5 ? '🔉' : '🔊' };
+    const ap = () => { if (MUS.a) MUS.a.volume = volFinal(); ui(); salvaMus() };
+    mt.onclick = () => { MUS.mudo = !MUS.mudo; if (!MUS.mudo && MUS.vol == 0) MUS.vol = .5; ap() };
+    mv.oninput = () => { MUS.vol = mv.value / 100; MUS.mudo = false; ap() };
+    ui();
+})();
+
 function homeBg() {
     SELBG = SELBG || SV.bg || Object.keys(BGS)[0];
     const moeda = `<img src="assets/moeda.png" class="icone-moeda" alt="Moedas">`;
@@ -728,6 +784,7 @@ function homeBg() {
 }
 
 function home() {
+    musica('menu');
     applyBg(); if (TAB == 'bg') { SCR = 'home'; return homeBg() }
     const y = (document.getElementById('lst') || {}).scrollTop || 0;
     SCR = 'home'; if (!SEL || !T[SEL]) SEL = SV.team[0] || 'diluc';

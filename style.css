@@ -1056,3 +1056,32 @@ body {
 .hasph .im {
     bottom: 76px
 }
+
+#mus {
+    position: fixed;
+    top: calc(8px + env(safe-area-inset-top, 0px));
+    right: 8px;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    background: #0007;
+    border: 1px solid #fff4;
+    border-radius: 16px
+}
+
+#mus button {
+    background: none;
+    border: 0;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    color: #fff
+}
+
+#mus input {
+    width: 70px;
+    height: 4px;
+    accent-color: #ffd96a
+}
