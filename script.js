@@ -71,7 +71,7 @@ const T = {
         n: 'Mona', e: '🔮', el: 'hydro', mx: 3, m: [
             { n: 'Raio d\'Água', c: 1, el: 'hydro', d: 1 },
             { n: 'Reflexo', c: 3, el: 'hydro', d: 1, sm: 'reflexo' },
-            { n: 'Estrela Fatal', c: 3, el: 'hydro', d: 5, b: 1 }
+            { n: 'Estrela Fatal', c: 3, el: 'hydro', d: 4, b: 1, buff: 2 }
         ]
     },
 
@@ -79,7 +79,7 @@ const T = {
         n: 'Barbara', e: '🎤', el: 'hydro', mx: 3, m: [
             { n: 'Gotas Cantantes', c: 1, el: 'hydro', d: 1 },
             { n: 'Melodia do Lar', c: 3, el: 'hydro', sm: 'melodia' },
-            { n: 'Brilho de Estrela', c: 3, el: 'hydro', d: 1, cura: 4, b: 1 }
+            { n: 'Brilho de Estrela', c: 3, el: 'hydro', d: 1, cura: 4, b: 1, curaAlvo: 'todos' }
         ]
     },
 
@@ -93,7 +93,7 @@ const T = {
 
     ganyu: {
         n: 'Ganyu', e: '🐐', el: 'cryo', mx: 3, m: [
-            { n: 'Flecha Gelada', c: 2, el: 'cryo', d: 2 },
+            { n: 'Flecha Gelada', c: 2, el: 'cryo', d: 3 },
             { n: 'Trilha do Qilin', c: 3, el: 'cryo', d: 1, sm: 'flor' },
             { n: 'Chuva Celestial', c: 3, el: 'cryo', d: 6, b: 1 }
         ]
@@ -127,7 +127,7 @@ const T = {
         n: 'Jean', e: '🌬️', el: 'anemo', mx: 2, m: [
             { n: 'Espada da Brisa', c: 2, el: 'phys', d: 2 },
             { n: 'Lâmina do Vendaval', c: 3, el: 'anemo', d: 3, sw: 1 },
-            { n: 'Brisa da Alvorada', c: 3, el: 'anemo', d: 3, b: 1, cura: 2 }
+            { n: 'Brisa da Alvorada', c: 3, el: 'anemo', d: 3, b: 1, cura: 4, curaAlvo: 'todos', buff: 2 }
         ]
     },
 
@@ -135,7 +135,7 @@ const T = {
         n: 'Zibai', e: '🌙', el: 'geo', mx: 2, m: [
             { n: 'Dança da Lua Branca', c: 2, el: 'phys', d: 2 },
             { n: 'Passos da Lua Celeste', c: 3, el: 'geo', d: 3 },
-            { n: 'Eclipse da Lua Prateada', c: 3, el: 'geo', d: 4, b: 1 }
+            { n: 'Eclipse da Lua Prateada', c: 3, el: 'geo', d: 6, b: 1 }
         ]
     },
 
@@ -150,8 +150,8 @@ const T = {
     hutao: {
         n: 'Hu Tao', e: '🦋', el: 'pyro', mx: 2, m: [
             { n: 'Lança da Borboleta', c: 2, el: 'phys', d: 2 },
-            { n: 'Chama da Passagem', c: 3, el: 'pyro', d: 3 },
-            { n: 'Réquiem do Além', c: 3, el: 'pyro', d: 4, b: 1, cura: 1 }
+            { n: 'Chama da Passagem', c: 3, el: 'pyro', d: 3, imb: { el: 'pyro', d: 1 } },
+            { n: 'Réquiem do Além', c: 3, el: 'pyro', d: 4, b: 1, cura: 2 }
         ]
     },
 
@@ -167,7 +167,7 @@ const T = {
         n: 'Raiden Shogun', e: '⚡', el: 'electro', mx: 3, m: [
             { n: 'Corte da Eternidade', c: 2, el: 'phys', d: 2 },
             { n: 'Juízo Relampejante', c: 3, el: 'electro', d: 3, sm: 'olho' },
-            { n: 'Veredito da Deusa Inabalável', c: 3, el: 'electro', d: 5, b: 1 }
+            { n: 'Veredito da Deusa Inabalável', c: 3, el: 'electro', d: 6, b: 1 }
         ]
     },
 
@@ -175,7 +175,7 @@ const T = {
         n: 'Sangonomiya Kokomi', e: '🪼', el: 'hydro', mx: 2, m: [
             { n: 'Dança das Marés', c: 1, el: 'hydro', d: 1 },
             { n: 'Juramento das Águas', c: 3, el: 'hydro', d: 2, sm: 'bakakura' },
-            { n: 'Cerimônia da Lua Oceânica', c: 3, el: 'hydro', d: 3, b: 1, cura: 2 }
+            { n: 'Cerimônia da Lua Oceânica', c: 3, el: 'hydro', d: 3, b: 1, cura: 4, curaAlvo: 'todos' }
         ]
     },
 
@@ -199,7 +199,7 @@ const T = {
         n: 'Cyno', e: '🐺', el: 'electro', mx: 2, m: [
             { n: 'Presas do Juízo', c: 2, el: 'phys', d: 2 },
             { n: 'Investida do Julgamento', c: 3, el: 'electro', d: 3 },
-            { n: 'Pactos do Deus Chacal', c: 3, el: 'electro', d: 4, b: 1 }
+            { n: 'Pactos do Deus Chacal', c: 3, el: 'electro', d: 4, b: 1, imb: { el: 'electro', d: 1, dur: 1 } }
         ]
     },
 
@@ -239,7 +239,7 @@ const T = {
         n: 'Navia', e: '🌂', el: 'geo', mx: 2, m: [
             { n: 'Disparos Dourados', c: 2, el: 'phys', d: 2 },
             { n: 'Salva de Rosas de Cristal', c: 3, el: 'geo', d: 4 },
-            { n: 'Chuva de Artilharia', c: 3, el: 'geo', d: 5, b: 1 }
+            { n: 'Chuva de Artilharia', c: 3, el: 'geo', d: 6, b: 1 }
         ]
     },
 
@@ -254,7 +254,7 @@ const T = {
     arlecchino: {
         n: 'Arlecchino', e: '🔥', el: 'pyro', mx: 3, m: [
             { n: 'Dança da Lâmina Carmesim', c: 2, el: 'phys', d: 2 },
-            { n: 'Marca da Sentença', c: 3, el: 'pyro', d: 3 },
+            { n: 'Marca da Sentença', c: 3, el: 'pyro', d: 3, imb: { el: 'pyro', d: 2, dur: 2 } },
             { n: 'Banquete da Lua Sangrenta', c: 3, el: 'pyro', d: 5, b: 1, cura: 2 }
         ]
     },
@@ -262,7 +262,7 @@ const T = {
     skirk: {
         n: 'Skirk', e: '🌌', el: 'cryo', mx: 2, m: [
             { n: 'Cortes do Abismo', c: 2, el: 'phys', d: 2 },
-            { n: 'Ruptura Dimensional', c: 3, el: 'cryo', d: 3 },
+            { n: 'Ruptura Dimensional', c: 3, el: 'cryo', d: 4, imb: { el: 'cryo', d: 2, dur: 1 } },
             { n: 'Silêncio da Estrela Negra', c: 3, el: 'cryo', d: 5, b: 1 }
         ]
     },
@@ -271,14 +271,14 @@ const T = {
         n: 'Mavuika', e: '🔥', el: 'pyro', mx: 3, m: [
             { n: 'Cortes da Chama Eterna', c: 2, el: 'phys', d: 2 },
             { n: 'Cavalgada Flamejante', c: 3, el: 'pyro', d: 3 },
-            { n: 'Sol Incandescente', c: 3, el: 'pyro', d: 5, b: 1 }
+            { n: 'Sol Incandescente', c: 3, el: 'pyro', d: 7, b: 1 }
         ]
     },
 
     chasca: {
         n: 'Chasca', e: '🏹', el: 'anemo', mx: 2, m: [
             { n: 'Disparos do Vento Livre', c: 2, el: 'phys', d: 2 },
-            { n: 'Cavaleira dos Céus', c: 3, el: 'anemo', d: 3 },
+            { n: 'Cavaleira dos Céus', c: 3, el: 'anemo', d: 4 },
             { n: 'Salva do Horizonte Celeste', c: 3, el: 'anemo', d: 4, b: 1 }
         ]
     },
@@ -286,7 +286,7 @@ const T = {
     xilonen: {
         n: 'Xilonen', e: '🎧', el: 'geo', mx: 2, m: [
             { n: 'Ritmo das Lâminas', c: 2, el: 'phys', d: 2 },
-            { n: 'Batida das Montanhas', c: 3, el: 'geo', d: 3 },
+            { n: 'Batida das Montanhas', c: 3, el: 'geo', d: 3, buff: 2 },
             { n: 'Ressonância da Terra Dourada', c: 3, el: 'geo', d: 4, b: 1, cura: 2 }
         ]
     },
@@ -301,15 +301,15 @@ const T = {
 
     lauma: {
         n: 'Lauma', e: '🌿', el: 'dendro', mx: 2, m: [
-            { n: 'Canto da Lua Verde', c: 2, el: 'phys', d: 2 },
-            { n: 'Bênção do Bosque Lunar', c: 3, el: 'dendro', d: 3 },
+            { n: 'Canto da Lua Verde', c: 2, el: 'dendro', d: 2 },
+            { n: 'Bênção do Bosque Lunar', c: 3, el: 'dendro', d: 3, buff: 2 },
             { n: 'Hino da Lua Selvagem', c: 3, el: 'dendro', d: 4, b: 1 }
         ]
     },
 
     columbina: {
         n: 'Columbina', e: '🌙', el: 'hydro', mx: 2, m: [
-            { n: 'Lágrimas Celestiais', c: 2, el: 'phys', d: 2 },
+            { n: 'Lágrimas Celestiais', c: 2, el: 'hydro', d: 2 },
             { n: 'Abraço do Luar', c: 3, el: 'hydro', d: 3 },
             { n: 'Canção do Eclipse Eterno', c: 3, el: 'hydro', d: 4, b: 1 }
         ]
@@ -340,32 +340,57 @@ const T = {
 const SM = {
     oz: { n: 'Oz', e: '🐦‍⬛', el: 'electro', d: 2, u: 2 },
     gouba: { n: 'Gouba', e: '🐻', el: 'pyro', d: 2, u: 2 },
-    reflexo: { n: 'Reflexo da Água', e: '🪞', el: 'hydro', d: 1, u: 1 },
+    reflexo: { n: 'Reflexo da Água', e: '🪞', el: 'hydro', d: 2, u: 1 },
     melodia: { n: 'Que Comece o Espetáculo', e: '🎵', el: 'hydro', u: 2, cura: 2 },
     flor: { n: 'Lótus de Gelo', e: '🌸', el: 'cryo', d: 1, u: 2 },
     ventos: { n: 'Ventos Cantantes', e: '🍃', el: 'anemo', d: 2, u: 2 },
     olho: { n: 'Olho do Julgamento', e: '👁️‍🗨️', el: 'electro', d: 2, u: 3 },
     bakakura: { n: 'Bake-Kurage', e: '🪼', el: 'hydro', d: 1, u: 2, cura: 3 },
     ushi: { n: 'Explosão Akaushi', e: '🐂', el: 'geo', d: 1, u: 2 },
-    lampada: { n: 'Lâmpada da Proteção', e: '🪔', el: 'electro', u: 2, cura: 2 },
+    lampada: { n: 'Lâmpada da Proteção', e: '🪔', el: 'electro', u: 2, cura: 4 },
     salon: { n: 'Membros do Salão', e: '🫧', el: 'hydro', u: 2, d: 2},
     lamina: {n: 'Espada Luminosa', e: '🗡️', el: 'phys', u: 1, d: 6},
     anel: {n: 'Anel da Tempestade', e: '💍', el: 'electro', u: 2, cura: 2, d: 1},
 };
+
 const PRECO = { diluc: 0, kaeya: 0, fischl: 0, xiangling: 10, sucrose: 8, barbara: 9, mona: 10, venti: 10, ganyu: 15, noelle: 9, eula: 16, durin: 15, jean: 10, yelan: 16, zibai: 16, hutao: 15, beidou: 14, raiden: 16, kokomi: 15, itto: 14, kuki: 15, cyno: 14, nilou: 15, dori: 14, dehya: 14, furina: 16, navia: 15, wriothesley: 14, arlecchino: 16, skirk: 16, mavuika: 16, chasca: 15, xilonen: 14, kinich: 14, lauma: 14, columbina: 16, flins: 16, nefer: 15 };
+
 const MOEDAS = { vitoria: 10, derrota: 5, porVivo: 1 };
+const ENERGIA = 10;
+
 const BGS = { fontaine: 'Fontaine', inazuma: 'Inazuma', liyue: 'Liyue', natlan: 'Natlan', nodkrai: 'Nod-Krai', sumeru: 'Sumeru' };
+
 const PRECO_BG = 60;
 const bgUrl = id => `assets/background/${id}-bg.png`;
+
 let TAB = 'chars', SELBG = null;
+
 const preco = id => PRECO[id] ?? 10;
+
 let SV = { coins: 10, owned: ['diluc', 'kaeya', 'fischl'], team: ['diluc', 'kaeya', 'fischl'] }, SCR = 'home', SEL = null;
+
 try { const s = JSON.parse(localStorage.getItem('gi_save')); if (s && s.owned && s.team) SV = s } catch (e) { }
 SV.bgs = SV.bgs || []; SV.bg = SV.bg || null;
+
 const save = () => { try { localStorage.setItem('gi_save', JSON.stringify(SV)) } catch (e) { } };
 const refresh = () => SCR == 'home' ? home() : render();
-function heal(s, n) { const c = s.ch[s.a], h = Math.min(T[c.k].hp || 10, c.hp + n) - c.hp; c.hp += h; G.pops.push({ s: s === G.p ? 'p' : 'o', i: s.a, t: h, h: 1 }) }
-const mk = k => ({ ch: k.map(x => ({ k: x, hp: T[x].hp || 10, cg: 0, au: null })), a: 0, sm: [], pool: 8 });
+
+function heal(s, n, modo) {
+    const vivos = s.ch.map((_, i) => i).filter(i => s.ch[i].hp > 0);
+    let alvos;
+    if (modo == 'todos') alvos = vivos;
+    else if (modo == 'fraco') { const min = Math.min(...vivos.map(i => s.ch[i].hp)); alvos = [vivos.find(i => s.ch[i].hp == min)] }
+    else alvos = [s.a];
+    alvos.forEach(i => {
+        const c = s.ch[i], h = Math.min(T[c.k].hp || 10, c.hp + n) - c.hp;
+        c.hp += h;
+        if (h > 0) G.pops.push({ s: s === G.p ? 'p' : 'o', i, t: h, h: 1 });
+    });
+}
+const curaTxt = m => ({ todos: 'todo o time', fraco: 'o aliado com menos vida', self: 'o próprio personagem' })[m];
+
+const mk = k => ({ ch: k.map(x => ({ k: x, hp: T[x].hp || 10, cg: 0, au: null })), a: 0, sm: [], pool: ENERGIA });
+
 // ===== FOTOS DOS PERSONAGENS =====
 // Opção 1: coloque o caminho/URL da imagem abaixo (URLs externas só carregam se você hospedar este arquivo por conta própria).
 // Opção 2: passe o mouse na carta e clique em 📷 para enviar uma foto do computador (botão direito no 📷 remove). Fica salva no navegador.
@@ -382,31 +407,127 @@ function init() { const ids = Object.keys(T).sort(() => Math.random() - .5); SCR
 
 const say = t => G.log = t;
 const tgi = () => G.tg != null && G.o.ch[G.tg] && G.o.ch[G.tg].hp > 0 ? G.tg : G.o.a;
+
 const IA = { prep: 1500, pos: 1200 };
-function est(f, ti, m) {
-    const t = f.ch[ti];
-    if (m.el == 'phys' || !t.au || t.au == m.el) return 0;
-    if (m.el == 'anemo') return 1;
-    const R = RX[[t.au, m.el].sort().join()]; return R ? R[1] : 0;
-}
-function aiPlan(o, p) {
-    const c = o.ch[o.a], t = T[c.k]; let best = null;
-    const vivos = p.ch.map((_, i) => i).filter(i => p.ch[i].hp > 0);
+
+const IAW = {
+    carga: 3,      // valor de uma explosão totalmente carregada
+    matar: 6,      // bônus por derrubar um personagem (e prejuízo por perder um)
+    aura: .7,      // vantagem de deixar o alvo com um elemento (prepara reação)
+    ameaca: 1.15,  // quanto a IA valoriza tirar vida do seu time em relação a proteger a própria
+    sobra: .7,     // só para ordenar ações incompletas (energia que ainda dá para gastar)
+    largura: 8     // quantas sequências ela compara por etapa (maior = mais esperta e mais lenta)
+};
+
+function aiActs(o, p) {
+    const L = [], vp = p.ch.map((_, i) => i).filter(i => p.ch[i].hp > 0);
+    if (!vp.length) return L;
     const fraco = o.ch.map((_, i) => i).filter(i => o.ch[i].hp > 0).sort((a, b) => (o.ch[a].hp + (o.ch[a].sh || 0) * 2) - (o.ch[b].hp + (o.ch[b].sh || 0) * 2))[0];
-    t.m.forEach((m, mi) => {
-        if (!can(o, mi)) return;
-        vivos.forEach(ti => {
-            const tg = p.ch[ti], b = est(p, ti, m), d = Math.max(0, m.d - (tg.sh || 0)) + b;
-            let sc = d * 2 + (m.b ? 3 : 0) + (m.sm ? 2 : 0) + (m.esc ? 3 : 0);
-            if (d > 0 && d >= tg.hp) sc += 20; else sc += (10 - tg.hp) * 0.4;
-            if (b > 0) sc += 2;
-            if (m.cura && c.hp <= 6) sc += m.cura * 2;
-            if (ti == p.a) sc += 1;
-            if (!best || sc > best.sc) best = { mi, ti, sc, al: fraco };
+    o.ch.forEach((c, ci) => {
+        if (c.hp <= 0) return;
+        const t = T[c.k], sw = ci == o.a ? 0 : 1;
+        t.m.forEach((m, mi) => {
+            if (o.pool - sw < m.c || (m.b && c.cg < t.mx)) return;
+            (m.d > 0 ? vp : [p.a]).forEach(ti => L.push({ ci, mi, ti, al: fraco }));
+        });
+    });
+    return L;
+}
+
+function simAct(o, p, a) {
+    const sG = G, so = structuredClone(o), sp = structuredClone(p);
+    G = { p: sp, o: so, pops: [], log: '', tg: null, over: null, pend: null };
+    try { if (a.ci != so.a) { so.pool--; so.a = a.ci } use(so, sp, a.mi, a.ti, a.al) }
+    finally { G = sG }
+    return { o: so, p: sp };
+}
+
+function ev(o, p) {                       // placar do ponto de vista do oponente (IA)
+    let s = 0;
+    for (const c of o.ch) {
+        const t = T[c.k]; if (c.hp <= 0) { s -= IAW.matar; continue }
+        s += c.hp + (c.sh || 0) * .9 + c.cg / t.mx * IAW.carga - (c.au ? .5 : 0);
+        if (c.im && o.pool >= 2) s += c.im.d * .8 + .5;
+    }
+    for (const c of p.ch) {
+        const t = T[c.k]; if (c.hp <= 0) { s += IAW.matar; continue }
+        s -= c.hp * IAW.ameaca + (c.sh || 0) * .9 + c.cg / t.mx * IAW.carga; if (c.au) s += IAW.aura;
+    }
+    for (const x of o.sm) s += x.u * (x.d * 1.1 + (x.cura || 0) * .9);
+    for (const x of p.sm) s -= x.u * (x.d * 1.1 + (x.cura || 0) * .9);
+    if (o.pool >= 2) s += (o.bf || 0) * .8;                 // buff só vale se ainda der para atacar
+    if (!alive(p)) s += 1000;
+    return s;
+}
+
+function est(f, ti, el) {                      // dano EXTRA de reação
+    const t = f.ch[ti];
+    if (el == 'phys' || !t.au || t.au == el) return 0;
+    if (el == 'anemo') return 1;
+    const R = RX[[t.au, el].sort().join()]; return R ? R[1] : 0;
+}
+
+function aiPlan(o, p) {
+    let frontier = [{ o, p, first: null }], best = null;
+    for (let depth = 0; depth < 7 && frontier.length; depth++) {
+        const next = [];
+        for (const n of frontier) {
+            const acts = aiActs(n.o, n.p);
+            if (!acts.length) {                              // fim do turno: não dá mais para agir
+                if (n.first) { const v = ev(n.o, n.p); if (!best || v > best.v) best = { v, first: n.first } }
+                continue;
+            }
+            for (const a of acts) {
+                const r = simAct(n.o, n.p, a);
+                next.push({ o: r.o, p: r.p, first: n.first || a, v: ev(r.o, r.p) + r.o.pool * IAW.sobra + Math.random() * .2 });
+            }
+        }
+        next.sort((x, y) => y.v - x.v); frontier = next.slice(0, IAW.largura);
+    }
+    for (const n of frontier) { const v = ev(n.o, n.p); if (!best || v > best.v) best = { v, first: n.first } }
+    return best && best.first;                               // { ci, mi, ti, al } — o endRound já usa esse formato
+}
+
+/* function aiPlan(o, p) {
+    const vivosP = p.ch.map((_, i) => i).filter(i => p.ch[i].hp > 0);
+    const fraco = o.ch.map((_, i) => i).filter(i => o.ch[i].hp > 0).sort((a, b) => (o.ch[a].hp + (o.ch[a].sh || 0) * 2) - (o.ch[b].hp + (o.ch[b].sh || 0) * 2))[0];
+    let best = null;
+    o.ch.forEach((c, ci) => {
+        if (c.hp <= 0) return;
+        const t = T[c.k], sw = ci == o.a ? 0 : 1, pool = o.pool - sw;
+        t.m.forEach((m, mi) => {
+            if (pool < m.c || (m.b && c.cg < t.mx)) return;
+            const el = m.el == 'phys' && c.im ? c.im.el : m.el;
+            const d = m.d > 0 ? m.d + (c.im ? c.im.d : 0) + (o.bf || 0) : 0;
+            const resto = pool - m.c;
+            let base = 0;
+            if (m.b) base += 2; else if (c.cg < t.mx) base += c.cg == t.mx - 1 ? 1 : .6;     // acumular carga
+            if (m.sm) { const S = SM[m.sm], x = o.sm.find(y => y.n == S.n), us = x ? Math.max(0, S.u - x.u) : S.u; base += (S.d * 1.5 + (S.cura || 0)) * us * .8 }
+            if (m.cura) base += Math.min(m.cura, (t.hp || 10) - c.hp) * 1.5;
+            if (m.esc) base += Math.min(m.esc, 3) * 1.2;
+            if (m.buff) base += m.buff * 2.5 * (resto >= 2 ? 1 : .3);                       // buff só vale se ainda der para atacar
+            if (m.imb) base += (m.imb.d * 2 + 2) * (resto >= 2 ? 1 : .4);
+            if (resto == 1) base -= 1.2;                                                     // sobra 1 de energia: desperdício
+            const alvos = d > 0 ? vivosP : [p.a];
+            alvos.forEach(ti => {
+                const tg = p.ch[ti]; let v = base;
+                if (d > 0) {
+                    const b = est(p, ti, el), tot = Math.max(0, d - (tg.sh || 0)) + b;
+                    v += tot * 2.2;
+                    if (tot >= tg.hp) v += 18 + p.sm.filter(x => x.own === ti).length * 3; else v += (10 - tg.hp) * .35;
+                    if (b > 0) v += 1.5;
+                    else if (el != 'phys' && el != 'anemo' && !tg.au) v += .8;               // prepara reação para o próximo ataque
+                    v += (tg.cg / T[tg.k].mx) * 2;                                           // enfraquece quem está perto da explosão
+                    if (el == 'anemo' && tg.au) v += [ti - 1, ti + 1].filter(j => p.ch[j] && p.ch[j].hp > 0).length * 1.5;
+                }
+                if (m.sw) v += .8;
+                v = v / (m.c + sw) + Math.random() * .3;
+                if (!best || v > best.sc) best = { ci, mi, ti, sc: v, al: fraco };
+            });
         });
     });
     return best;
-}
+}*/
 
 
 function alive(s) { return s.ch.some(c => c.hp > 0) }
@@ -414,10 +535,10 @@ function nextAlive(s) { for (let k = 1; k < 3; k++) { const j = (s.a + k) % 3; i
 function autoSw(s) { if (s.ch[s.a].hp <= 0) { const n = s.ch.findIndex(c => c.hp > 0); if (n >= 0) s.a = n } }
 function hit(f, el, d, ti) {
     let i = ti ?? f.a; if (!f.ch[i] || f.ch[i].hp <= 0) i = f.a;
-    const t = f.ch[i]; let b = 0, r = '';
+    const t = f.ch[i]; let b = 0, r = '', spread = null;
     if (el != 'phys') {
         if (t.au && t.au != el) {
-            if (el == 'anemo') { b = 1; r = 'Redemoinho'; t.au = null }
+            if (el == 'anemo') { b = 1; r = 'Redemoinho'; spread = t.au; t.au = null }
             else {
                 const R = RX[[t.au, el].sort().join()];
                 if (R) { b = R[1]; r = R[0]; t.au = null; if (R[2] && i == f.a) f.fs = 1 }
@@ -426,23 +547,28 @@ function hit(f, el, d, ti) {
     }
     let base = d;
     if (t.sh > 0 && base > 0) { const a = Math.min(t.sh, base); t.sh -= a; base -= a; if (!r) r = 'Escudo' }
-    const tot = base + b; // dano de reação (b) passa pelo escudo
+    const tot = base + b;
     t.hp = Math.max(0, t.hp - tot);
     G.pops.push({ s: f === G.p ? 'p' : 'o', i, t: tot, r });
-    if (t.hp <= 0) { t.au = null; t.sh = 0; f.sm = f.sm.filter(x => x.own !== i); if (i == f.a) autoSw(f) }   // dono morreu => invocações somem
+    if (t.hp <= 0) { t.au = null; t.sh = 0; f.sm = f.sm.filter(x => x.own !== i); if (i == f.a) autoSw(f) }
     else if (f.fs && i == f.a) { f.a = nextAlive(f) }
     f.fs = 0;
+    if (spread) [i - 1, i + 1].forEach(j => { if (f.ch[j] && f.ch[j].hp > 0) hit(f, spread, 1, j) });
 }
 function can(s, mi) { const c = s.ch[s.a], t = T[c.k], m = t.m[mi]; return c.hp > 0 && s.pool >= m.c && (!m.b || c.cg >= t.mx) }
 function use(s, f, mi, ti, al) {
     const c = s.ch[s.a], t = T[c.k], m = t.m[mi]; s.pool -= m.c;
     if (m.b) c.cg = 0; else c.cg = Math.min(t.mx, c.cg + 1);
-    say(`${t.n} usou ${m.n} em ${T[f.ch[ti ?? f.a].k].n}!`);
-    if (m.cura) heal(s, m.cura);
+    const el = m.el == 'phys' && c.im ? c.im.el : m.el;                        // ataque físico imbuído vira elemental
+    const d = m.d > 0 ? m.d + (c.im ? c.im.d : 0) + (s.bf || 0) : 0;          // bônus do imbuir + buff pendente
+    say(`${t.n} usou ${m.n}${m.d > 0 ? ' em ' + T[f.ch[ti ?? f.a].k].n : ''}!`);
+    if (m.cura) heal(s, m.cura, m.curaAlvo || 'self');
     if (m.esc) { const a = s.ch[al ?? s.a]; a.sh = (a.sh || 0) + m.esc; say(`${t.n} usou ${m.n}: escudo em ${T[a.k].n}!`) }
     if (m.sm) { const S = SM[m.sm], x = s.sm.find(y => y.n == S.n); x ? (x.u = S.u, x.own = s.a) : s.sm.push({ ...S, id: m.sm, own: s.a }) }
     if (m.sw) f.fs = 1;
-    if (m.d > 0) hit(f, m.el, m.d, ti);
+    if (d > 0) { hit(f, el, d, ti); s.bf = 0 }                                  // o buff é gasto neste ataque
+    if (m.buff) { s.bf = (s.bf || 0) + m.buff; say(`${t.n}: o próximo ataque causa +${m.buff} de dano!`) }
+    if (m.imb) { c.im = { el: m.imb.el, d: m.imb.d, dur: m.imb.dur || 1 }; say(`${t.n} imbuiu os ataques com ${NM[m.imb.el]}!`) }
 }
 function chk() {
     if (!alive(G.o)) { G.over = 'Vitória!' } else if (!alive(G.p)) { G.over = 'Derrota...' }
@@ -466,15 +592,13 @@ async function endRound() {
     await sl(IA.prep); if (off()) return;
     const o = G.o;
     while (true) {
-        const ba = o.ch[o.a], bi = T[ba.k].m.findIndex(m => m.b);
-        const pr = o.ch.findIndex((c, i) => { const b = T[c.k].m.find(m => m.b); return i != o.a && c.hp > 0 && c.cg >= T[c.k].mx && b && o.pool >= 1 + b.c });
-        if (pr >= 0 && !(bi >= 0 && can(o, bi))) {
-            o.pool--; o.a = pr; say(`Oponente trocou para ${T[o.ch[pr].k].n}!`); render();
-            await sl(IA.pos); if (off()) return; continue;
-        }
         const pl = aiPlan(o, G.p); if (!pl) break;
-        const m = T[ba.k].m[pl.mi];
-        say(`Oponente vai usar ${m.n} em ${T[G.p.ch[pl.ti].k].n}...`); render();
+        if (pl.ci != o.a) {                                  // troca de personagem (custa 1 de energia)
+            o.pool--; o.a = pl.ci; say(`Oponente trocou para ${T[o.ch[pl.ci].k].n}!`); render();
+            await sl(IA.pos); if (off()) return;
+        }
+        const m = T[o.ch[o.a].k].m[pl.mi];
+        say(`Oponente vai usar ${m.n}${m.d > 0 ? ' em ' + T[G.p.ch[pl.ti].k].n : ''}...`); render();
         await sl(IA.prep); if (off()) return;
         use(o, G.p, pl.mi, pl.ti, pl.al); render(); if (chk()) return;
         await sl(IA.pos); if (off()) return;
@@ -482,28 +606,35 @@ async function endRound() {
     say('Fase final: invocações atacam!'); render(); await sl(IA.prep); if (off()) return;
     for (const [s, f] of [[G.p, G.o], [G.o, G.p]]) {
         for (const m of [...s.sm]) {
-            if (!s.sm.includes(m)) continue;          // a invocação sumiu porque o dono morreu
-            say(`${m.n} ataca!`); if (m.d) hit(f, m.el, m.d, s === G.p ? tgi() : undefined); if (m.cura) heal(s, m.cura); m.u--; render(); if (chk()) return;
+            if (!s.sm.includes(m)) continue;
+            say(`${m.n} ataca!`); if (m.d) hit(f, m.el, m.d, s === G.p ? tgi() : undefined); 
+            if (m.cura) heal(s, m.cura, m.curaAlvo || 'fraco'); 
+            m.u--; render(); if (chk()) return;
             await sl(IA.pos); if (off()) return;
         }
         s.sm = s.sm.filter(m => m.u > 0);
     }
-    G.r++; G.p.pool = G.o.pool = 8; G.turn = 'p'; G.busy = 0; say(`Rodada ${G.r} — sua vez!`); render();
+    [G.p, G.o].forEach(s => { s.bf = 0; s.ch.forEach(c => { if (c.im && --c.im.dur <= 0) c.im = null }) });   // buffs e imbuir expiram
+    G.r++; G.p.pool = G.o.pool = ENERGIA; G.turn = 'p'; G.busy = 0; say(`Rodada ${G.r} — sua vez!`); render();
 }
+
 function card(s, side, i) {
     const c = s.ch[i], t = T[c.k], E = EL[t.el], ph = photo(c.k), al = side == 'o' && i == tgi();
     let en = ''; for (let j = 0; j < t.mx; j++)en += `<i class="${j < c.cg ? 'on' : ''}"></i>`;
     return `<div class="cc ${i == s.a ? 'act' : ''} ${c.hp ? '' : 'dead'} ${ph ? 'hasph' : ''} ${al ? 'tgt' : ''} ${side == 'p' && G.pend != null && c.hp > 0 ? 'pick' : ''}" id="c${side}${i}" ${side == 'p' ? `data-sw="${i}"` : ''} ${side == 'o' ? `data-tg="${i}"` : ''} style="--c:${E[1]}">
  ${c.au ? `<div class="au" style="background:${EL[c.au][1]}">${EL[c.au][0]}</div>` : ''}
  ${c.sh > 0 ? `<div class="sh">🛡️ ${c.sh}</div>` : ''}
+ ${s.bf && i == s.a ? `<div class="bf">⬆️ +${s.bf}</div>` : ''}
+ ${c.im ? `<div class="im">${EL[c.im.el][0]}+${c.im.d}</div>` : ''}
  ${ph ? `<div class="ph" style="background-image:url('${ph}')"></div>` : ''}<div class="hp"><span>${c.hp}</span></div>${ph ? '' : `<div class="em">${t.e}</div>`}<div class="nm">${t.n}</div><button class="up" data-up="${c.k}" title="Enviar foto (botão direito remove)">📷</button>
  <div class="ty"><span>${EL[t.el]?.[0]}</span></div><div class="en">${en}</div></div>`
 }
+
 function sc(m, pos) { const ph = photo(m.id); return `<div class="sm ${ph ? 'hasph' : ''}" style="${pos};--c:${EL[m.el][1]}">${ph ? `<div class="ph" style="background-image:url('${ph}')"></div>` : `<div class="em">${m.e}</div>`}<b>${m.u}⏳</b><div class="n2">${m.n}</div><u>${m.d || m.esc || ''}</u><button class="up" data-up="${m.id}" title="Enviar foto (botão direito remove)">📷</button></div>` }
 function summ(s, pos) { return s.sm.map((m, i) => sc(m, `${pos};margin-right:${i * 125}px`)).join('') }
 function render() {
     const p = G.p, o = G.o, pc = p.ch[p.a], pt = T[pc.k], my = G.turn == 'p' && !G.busy && !G.over;
-    const orbs = Array.from({ length: 8 }, (_, i) => `<i class="${i < p.pool ? '' : 'off'}"></i>`).join('');
+    const orbs = Array.from({ length: ENERGIA }, (_, i) => `<i class="${i < p.pool ? '' : 'off'}"></i>`).join('');
     const ic = ['⚔️', EL[pt.el][0], '✨'];
     const sk = pt.m.map((m, i) => `<div class="w" data-t="${i}"><button class="sb ${m.b ? 'bu' : ''}" style="--g:conic-gradient(#ffd24a ${m.b ? pc.cg / pt.mx * 360 : 0}deg,#0000 0)" data-m="${i}" ${my && can(p, i) ? '' : 'disabled'}><span>${ic[i]}</span><div class="hex">${m.c}</div></button></div>`).join('');
     st.innerHTML = `
@@ -541,9 +672,11 @@ st.onclick = e => {
     if (c && G.pend != null) { const i = +c.dataset.sw; if (G.p.ch[i].hp > 0) pact(G.pend, i); return }
     if (c) { const i = +c.dataset.sw; if (i != G.p.a && G.p.ch[i].hp > 0 && G.p.pool >= 1) { G.p.pool--; G.p.a = i; say(`Trocou para ${T[G.p.ch[i].k].n}.`); render(); if (G.p.pool <= 0) { G.busy = 1; sl(700).then(endRound) } } }
 };
+
 let hov = null;
 const NM = { pyro: 'Pyro', hydro: 'Hydro', electro: 'Electro', cryo: 'Cryo', anemo: 'Anemo', dendro: 'Dendro', geo: 'Geo', phys: 'Físico' };
 Object.values(SM).forEach(s => { s.d = s.d || 0 });
+
 function showTip() {
     let t = document.getElementById('tip'); if (t) t.remove();
     if (hov == null || G.over) return;
@@ -554,25 +687,32 @@ function showTip() {
     h += `<p>💥 Dano: <b>${m.d}</b> ${NM[m.el]}</p>`;
     if (m.cura) h += `<p>💚 Cura ${m.cura} de vida do personagem ativo.</p>`;
     if (m.esc) h += `<p>🛡️ Dá ${m.esc} de escudo a um aliado à sua escolha. O escudo bloqueia dano, exceto o dano extra de reação.</p>`;
+    if (m.buff) h += `<p>⬆️ O próximo ataque com dano do seu time (de qualquer personagem) causa +${m.buff}. Vale 1 vez e expira no fim da rodada.</p>`;
+    if (m.imb) h += `<p>🌀 Imbuir: os ataques físicos deste personagem viram ${NM[m.imb.el]} e todas as habilidades dele causam +${m.imb.d} de dano por ${m.imb.dur || 1} rodada(s).</p>`;
     if (m.sm) { const S = SM[m.sm]; h += `<p>${S.e} Invoca <b>${S.n}</b>: ${S.d} de dano ${NM[S.el]} na fase final, por ${S.u} uso(s).${S.cura ? ' Cura ' + S.cura + ' ao fim da rodada.' : ''} Usar de novo renova os usos.</p>` }
     if (m.sw) h += `<p>🔄 Força o oponente a trocar de personagem.</p>`;
-    if (m.el == 'anemo') h += `<p>🌪️ Redemoinho: +1 de dano se o alvo tiver um elemento (o elemento é removido).</p>`;
+    if (m.el == 'anemo') h += `<p>🌪️ Redemoinho: +1 de dano se o alvo tiver elemento; o elemento é removido e espalhado (1 de dano) nos personagens ao lado do alvo.</p>`;
     else if (m.el == 'phys') h += `<p>⚔️ Dano físico: não aplica elemento e não causa reações.</p>`;
     else { const rs = Object.entries(RX).filter(([k]) => k.split(',').includes(m.el)).map(([k, v]) => `${v[0]} (alvo ${NM[k.split(',').find(x => x != m.el)]}): +${v[1]}${v[2] ? ', força troca' : ''}`); h += `<p>⚗️ Aplica ${NM[m.el]} no alvo. Reações: ${rs.join('; ')}.</p>` }
     if (G.p.pool < m.c) h += `<p class="w">⚠ Energia insuficiente</p>`; else if (m.b && c.cg < tt.mx) h += `<p class="w">⚠ Carga insuficiente</p>`;
     t = document.createElement('div'); t.id = 'tip'; t.innerHTML = h; st.appendChild(t);
 }
+
 st.addEventListener('mouseover', e => { const w = e.target.closest('[data-t]'), n = w ? +w.dataset.t : null; if (n !== hov) { hov = n; showTip() } });
 st.addEventListener('mouseleave', () => { hov = null; showTip() });
 st.addEventListener('contextmenu', e => { const u = e.target.closest('.up'); if (u) { e.preventDefault(); delete UP[u.dataset.up]; saveUp(); refresh() } });
-function mline(t, m, i) { const S = m.sm && SM[m.sm]; return `<div class="mv"><b>${EL[m.el][0]} ${m.n}</b> <i>(${['Ataque Normal', 'Habilidade Elemental', 'Explosão Elemental'][i]})</i><br>💠 Custo ${m.c}${m.b ? ` · ✨ precisa de carga ${t.mx}/${t.mx}` : ' · ◆ +1 de carga'} · 💥 Dano ${m.d} ${NM[m.el]}${m.cura ? ` · 💚 Cura ${m.cura}` : ''} ${m.esc ? ` · 🛡️ Escudo ${m.esc} em um aliado (bloqueia dano, não bloqueia dano de reação)` : ''} ${m.sw ? ' · 🔄 Força troca do oponente' : ''}${S ? `<br>${S.e} Invoca ${S.n}: ${S.d} de dano ${NM[S.el]} por rodada, ${S.u} uso(s)${S.cura ? `, cura ${S.cura}` : ''}` : ''}</div>` }
+
+function mline(t, m, i) { const S = m.sm && SM[m.sm]; return `<div class="mv"><b>${EL[m.el][0]} ${m.n}</b> <i>(${['Ataque Normal', 'Habilidade Elemental', 'Explosão Elemental'][i]})</i><br>💠 Custo ${m.c}${m.b ? ` · ✨ precisa de carga ${t.mx}/${t.mx}` : ' · ◆ +1 de carga'} · 💥 Dano ${m.d} ${NM[m.el]}${m.cura ? ` · 💚 Cura ${m.cura}` : ''} ${m.esc ? ` · 🛡️ Escudo ${m.esc} em um aliado (bloqueia dano, não bloqueia dano de reação)` : ''} ${m.buff ? ` · ⬆️ Próximo ataque do time +${m.buff} de dano (1 uso, expira no fim da rodada)` : ''}${m.imb ? ` · 🌀 Ataques físicos viram ${NM[m.imb.el]} e +${m.imb.d} de dano (${m.imb.dur || 1} rodada)` : ''} ${m.sw ? ' · 🔄 Força troca do oponente' : ''}${S ? `<br>${S.e} Invoca ${S.n}: ${S.d} de dano ${NM[S.el]} por rodada, ${S.u} uso(s)${S.cura ? `, cura ${S.cura}` : ''}` : ''}</div>` }
 
 function applyBg() {
     st.style.backgroundImage = SV.bg ? `linear-gradient(#0003,#0003),url(${bgUrl(SV.bg)})` : '';
     st.style.backgroundSize = 'cover'; st.style.backgroundPosition = 'center';
 }
+
 const hdr = () => `<div id="hh"><span><img src="./assets/logo.png" class="logo-jogo" alt="Logo">Genius Invokation <small>Modo Energia</small></span><span class="moedas"><img src="assets/moeda.png" class="icone-moeda" alt="Moedas"> ${SV.coins}</span><span style="flex:1"></span><span style="font-size:20px">Time (${SV.team.length}/3): ${SV.team.map(i => T[i].n).join(' · ')}</span><button class="btn" id="go" ${SV.team.length == 3 ? '' : 'disabled'} title="Escolha 3 personagens">Começar uma partida</button></div>`;
+
 const tabs = () => `<div id="tabs"><button class="tab ${TAB == 'chars' ? 'on' : ''}" data-tab="chars">🃏 Personagens</button><button class="tab ${TAB == 'bg' ? 'on' : ''}" data-tab="bg">🖼️ Planos de fundo</button></div>`;
+
 function homeBg() {
     SELBG = SELBG || SV.bg || Object.keys(BGS)[0];
     const moeda = `<img src="assets/moeda.png" class="icone-moeda" alt="Moedas">`;
@@ -600,6 +740,7 @@ function home() {
  <div id="dt"><h2>${EL[t.el]?.[0]} ${t.n}</h2><p>❤️ Vida: <b>${t.hp || 10}</b> · ✨ Carga da explosão: <b>${t.mx}</b> · Elemento: <b>${NM[t.el]}</b></p>${t.m.map((m, i) => mline(t, m, i)).join('')}${sid.length ? `<h3>Cartas de invocação</h3>${sid.map(id => sc({ ...SM[id], id }, 'position:relative;right:auto;display:inline-block;margin:8px 14px 14px 0')).join('')}` : ''}<p>${btn}</p></div>`;
     document.getElementById('lst').scrollTop = y;
 }
+
 function hclick(g) {
     const tb = g('[data-tab]'); if (tb) { TAB = tb.dataset.tab; return home() }
     const bc = g('[data-bg]'); if (bc) { SELBG = bc.dataset.bg; return home() }
