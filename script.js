@@ -31,7 +31,7 @@ const SWIRL = {
     elementos: ['pyro', 'hydro', 'electro', 'cryo']    // Geo e Dendro NÃO fazem Redemoinho
 };
 
-const PERF_IGNORA_ESCUDO = true;  
+const PERF_IGNORA_ESCUDO = true;
 
 const T = {
     diluc: {
@@ -63,6 +63,14 @@ const T = {
             { n: 'Vento Preciso', c: 1, el: 'anemo', d: 1 },
             { n: 'Vento Rodopiante', c: 3, el: 'anemo', d: 3, sw: 1 },
             { n: 'Frasco Caótico', c: 3, el: 'anemo', d: 4, b: 1 }
+        ]
+    },
+
+    diona: {
+        n: 'Diona', e: '🐱', el: 'cryo', mx: 2, m: [
+            { n: 'Pontaria Felina', c: 2, el: 'phys', d: 2 },
+            { n: 'Escudo de Patinhas', c: 3, el: 'cryo', d: 1, esc: 3 },
+            { n: 'Coquetel da Cauda de Gato', c: 3, el: 'cryo', d: 3, b: 1, cura: 2 }
         ]
     },
 
@@ -154,6 +162,14 @@ const T = {
         ]
     },
 
+    lanyan: {
+        n: 'Lan Yan', e: '🪭', el: 'anemo', mx: 2, m: [
+            { n: 'Dança das Plumas', c: 2, el: 'anemo', d: 2 },
+            { n: 'Escudo das Andorinhas', c: 3, el: 'anemo', d: 2, esc: 3 },
+            { n: 'Dança do Vendaval Lunar', c: 3, el: 'anemo', d: 4, b: 1 }
+        ]
+    },
+
     hutao: {
         n: 'Hu Tao', e: '🦋', el: 'pyro', mx: 2, m: [
             { n: 'Lança da Borboleta', c: 2, el: 'phys', d: 2 },
@@ -167,6 +183,14 @@ const T = {
             { n: 'Cortes da Maré', c: 2, el: 'phys', d: 2 },
             { n: 'Contra-ataque Trovejante', c: 3, el: 'electro', d: 3 },
             { n: 'Tempestade do Dragão Marinho', c: 3, el: 'electro', d: 4, b: 1 }
+        ]
+    },
+
+    zhongli: {
+        n: 'Zhongli', e: '🛡️', el: 'geo', mx: 2, m: [
+            { n: 'Lança da Rocha', c: 2, el: 'phys', d: 2 },
+            { n: 'Dominus Lapidis', c: 3, el: 'geo', d: 2, esc: 4 },
+            { n: 'Chuva de Meteoros', c: 3, el: 'geo', d: 5, b: 1 }
         ]
     },
 
@@ -202,6 +226,14 @@ const T = {
         ]
     },
 
+    ayaka: {
+        n: 'Kamisato Ayaka', e: '❄️', el: 'cryo', mx: 2, m: [
+            { n: 'Arte Kamisato: Hyouka', c: 2, el: 'phys', d: 2 },
+            { n: 'Arte Kamisato: Soumetsu', c: 3, el: 'cryo', d: 3 },
+            { n: 'Arte Kamisato: Senho', c: 3, el: 'cryo', d: 5, b: 1 }
+        ]
+    },
+
     cyno: {
         n: 'Cyno', e: '🐺', el: 'electro', mx: 2, m: [
             { n: 'Presas do Juízo', c: 2, el: 'phys', d: 2 },
@@ -222,7 +254,7 @@ const T = {
         n: 'Dori', e: '💜', el: 'electro', mx: 2, m: [
             { n: 'Golpe da Fortuna', c: 2, el: 'phys', d: 2 },
             { n: 'Espírito da Lâmpada', c: 3, el: 'electro', d: 1, sm: 'lampada' },
-            { n: 'Tesouro dos Mil Desejos', c: 3, el: 'electro', b: 1, cura: 4, curaAlvo: 'todos' }
+            { n: 'Tesouro dos Mil Desejos', c: 3, el: 'electro', b: 1, d: 0, cura: 4, curaAlvo: 'todos' }
         ]
     },
 
@@ -298,6 +330,14 @@ const T = {
         ]
     },
 
+    varesa: {
+        n: 'Varesa', e: '⚡', el: 'electro', mx: 2, m: [
+            { n: 'Impacto Trovejante', c: 2, el: 'electro', d: 2 },
+            { n: 'Mergulho Relampejante', c: 3, el: 'electro', d: 3 },
+            { n: 'Suprema Investida Celeste', c: 3, el: 'electro', d: 5, b: 1 }
+        ]
+    },
+
     kinich: {
         n: 'Kinich', e: '🦎', el: 'dendro', mx: 2, m: [
             { n: 'Garras da Selva', c: 2, el: 'phys', d: 3 },
@@ -338,6 +378,7 @@ const T = {
         ]
     },
 
+
 };
 // ===== COMO ADICIONAR PERSONAGENS / INVOCAÇÕES (o código lê estes dados e aplica as regras sozinho) =====
 // Personagem (em T): {n:nome, e:emoji, el:'pyro|hydro|electro|cryo|anemo|phys', mx:carga da explosão, hp:vida (opcional, padrão 10), m:[ataque normal, habilidade, explosão]}
@@ -355,16 +396,16 @@ const SM = {
     bakakura: { n: 'Bake-Kurage', e: '🪼', el: 'hydro', d: 1, u: 2, cura: 3 },
     ushi: { n: 'Explosão Akaushi', e: '🐂', el: 'geo', d: 1, u: 2 },
     lampada: { n: 'Lâmpada da Proteção', e: '🪔', el: 'electro', u: 2, cura: 4 },
-    salon: { n: 'Membros do Salão', e: '🫧', el: 'hydro', u: 2, d: 2},
-    lamina: {n: 'Espada Luminosa', e: '🗡️', el: 'phys', u: 1, d: 6},
-    anel: {n: 'Anel da Tempestade', e: '💍', el: 'electro', u: 2, cura: 2, d: 1},
+    salon: { n: 'Membros do Salão', e: '🫧', el: 'hydro', u: 2, d: 2 },
+    lamina: { n: 'Espada Luminosa', e: '🗡️', el: 'phys', u: 1, d: 6 },
+    anel: { n: 'Anel da Tempestade', e: '💍', el: 'electro', u: 2, cura: 2, d: 1 },
 };
 
-const PRECO = { diluc: 0, kaeya: 0, fischl: 0, xiangling: 10, sucrose: 8, barbara: 9, mona: 10, venti: 10, ganyu: 15, noelle: 9, eula: 16, durin: 15, jean: 10, yelan: 16, zibai: 16, hutao: 15, beidou: 14, raiden: 16, kokomi: 15, itto: 14, kuki: 15, cyno: 14, nilou: 15, dori: 14, dehya: 14, furina: 16, navia: 15, wriothesley: 14, arlecchino: 16, skirk: 16, mavuika: 16, chasca: 15, xilonen: 14, kinich: 14, lauma: 14, columbina: 16, flins: 16, nefer: 15 };
+const PRECO = { diluc: 0, kaeya: 0, fischl: 0, xiangling: 10, sucrose: 8, barbara: 9, mona: 10, venti: 10, ganyu: 15, noelle: 9, eula: 16, durin: 15, jean: 10, yelan: 16, zibai: 16, hutao: 15, beidou: 14, raiden: 16, kokomi: 15, itto: 14, kuki: 15, cyno: 14, nilou: 15, dori: 14, dehya: 14, furina: 16, navia: 15, wriothesley: 14, arlecchino: 16, skirk: 16, mavuika: 16, chasca: 15, xilonen: 14, kinich: 14, lauma: 14, columbina: 16, flins: 16, nefer: 15, zhongli: 15, lanyan: 10, varesa: 14, diona: 8 };
 
 const OPONENTES = [
     { n: 'Hilichurl Estranho', img: 'assets/oponentes/hilichurl-estranho.png' },
-    { n: 'Rhinedottir', img: 'assets/oponentes/rhinedottir.png', chande: 2 },
+    { n: 'Rhinedottir', img: 'assets/oponentes/rhinedottir.png', chance: 2 },
     { n: 'Operativa Fatui', img: 'assets/oponentes/fatuus2.webp' },
     { n: 'Cão da Fenda', img: 'assets/oponentes/cao.webp' },
     { n: 'Mago do Abismo', img: 'assets/oponentes/abyssmage-cryo.webp' },
@@ -438,7 +479,7 @@ const mk = k => ({ ch: k.map(x => ({ k: x, hp: T[x].hp || 10, cg: 0, au: null })
 // Opção 1: coloque o caminho/URL da imagem abaixo (URLs externas só carregam se você hospedar este arquivo por conta própria).
 // Opção 2: passe o mouse na carta e clique em 📷 para enviar uma foto do computador (botão direito no 📷 remove). Fica salva no navegador.
 // Proporção ideal: 160x250 (ex.: 320x500).
-const IMG = { diluc: 'https://i.pinimg.com/736x/aa/a6/cb/aaa6cbe01f3d9f5a191b843b4495d9bb.jpg', kaeya: 'https://i.pinimg.com/736x/24/ad/ac/24adace51cf36012475e893ac7d6ee76.jpg', fischl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9vcePCS8K1er47KIJl2RNAgz4Wvdhb-xBekZPNT1H-A&s=10', sucrose: 'https://i.pinimg.com/736x/10/c4/cf/10c4cfa5a0eb314f9a37d8be1152916e.jpg', xiangling: 'https://i.pinimg.com/1200x/5a/ab/c1/5aabc1386b029aacc9d2bd47414ac3fc.jpg', mona: 'https://i.pinimg.com/736x/a1/24/fc/a124fcff172110f97f123786d66c4ca2.jpg', barbara: 'https://i.pinimg.com/736x/6b/ef/28/6bef28931a69f860c774fa9a28dfc955.jpg', venti: 'https://i.pinimg.com/1200x/97/37/7f/97377f2a2dde238f0dd2ce43aea01cf7.jpg', ganyu: 'https://i.pinimg.com/736x/d4/ba/3d/d4ba3d26d86acbd94741d58f247672e4.jpg', eula: 'https://i.pinimg.com/736x/96/fd/cf/96fdcfa951820208b5de030d76e9a707.jpg', noelle: 'https://i.pinimg.com/1200x/14/9d/9a/149d9a899c88bcce707132b4ebc6a546.jpg', durin: 'https://ar-cs.aza.gg/g/genshin_impact/assets/ui/UI_Gcg_CardFace_Char_Avatar_Durin.webp', jean: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn9d0TMc0NCjsO8C2hF65WFDc_ND3fG6CXgq2B2v3Ojw&s=10', yelan: 'https://i.pinimg.com/736x/56/11/70/561170a179f2647d7e977484d90cd3e2.jpg', zibai: 'https://i.pinimg.com/736x/8a/e6/2c/8ae62c9c9ec7950049d24251965d0b3f.jpg', hutao: 'https://i.pinimg.com/736x/d1/07/85/d107857355116378de6a1dbb310383b6.jpg', beidou: 'https://i.pinimg.com/736x/e4/6d/60/e46d609fd6e942386bc12271edd84dd2.jpg', raiden: 'https://i.pinimg.com/1200x/5c/10/15/5c10159740019d0558cae2ef49b87e0f.jpg', kokomi: 'https://i.pinimg.com/736x/ca/a6/37/caa63780d7d86e15e1717bc004e49a8c.jpg', itto: 'https://i.pinimg.com/736x/f7/78/11/f778115c0c2bed8fc0e65b2401f73bcb.jpg', kuki: 'https://i.pinimg.com/736x/0c/ec/f8/0cecf8ee6dc4da2d11a3e352cc96df49.jpg', cyno: 'https://i.pinimg.com/1200x/76/54/7c/76547cf42d86c960b5538fae28640468.jpg', nilou: 'https://i.pinimg.com/736x/de/19/0c/de190c64672ed43707e027df37e3aa39.jpg', dori: 'https://i.pinimg.com/736x/d9/fd/8c/d9fd8c1cd25b219a8ff3ef3324b2a086.jpg', dehya: 'https://i.pinimg.com/736x/80/a3/5c/80a35c97bdf6fc646ddaf59a0476c1f2.jpg', furina: 'https://i.pinimg.com/736x/17/21/21/172121e32f372649e8ac6ff450a726d7.jpg', navia: 'https://i.pinimg.com/736x/65/7f/f1/657ff1450f4c9b0c60e6166d49243efa.jpg', wriothesley: 'https://i.pinimg.com/736x/e0/af/1c/e0af1ca21293402585ab2ac4ec6b697a.jpg', arlecchino: 'https://i.pinimg.com/736x/53/39/dd/5339ddba5764b61d89ef33056df1b533.jpg', skirk: 'https://i.pinimg.com/736x/ca/a0/f1/caa0f12cbe69d1e367582950ffd12877.jpg', mavuika: 'https://i.pinimg.com/736x/f1/96/3e/f1963e0faa5cedf0382a26b17ad40caa.jpg', chasca: 'https://i.pinimg.com/736x/bc/69/86/bc6986d7a916ac0d11d759c7db1b5315.jpg', xilonen: 'https://i.pinimg.com/736x/41/19/49/411949991db0234182c52989d4c2eb17.jpg', kinich: 'https://i.pinimg.com/736x/16/12/98/1612980c0d28034815f48d6a9f51d199.jpg', lauma: 'https://i.pinimg.com/736x/e3/45/fc/e345fc130e02feb11d64fc15f6b0f240.jpg', columbina: 'https://i.pinimg.com/736x/5e/85/1a/5e851abeb23c7552f850be6cc3e09338.jpg', flins: 'https://i.pinimg.com/736x/09/5b/da/095bdaa24f0d7c9af6b69002cb6bbbf9.jpg', nefer: 'https://i.pinimg.com/736x/96/b3/54/96b3544f1e5cb5ec6cecd9621d301d91.jpg', olho: 'https://static.wikia.nocookie.net/gensin-impact/images/c/c5/Eye_of_Stormy_Judgment_Summon.png/revision/latest?cb=20230525000538', ushi: 'https://static.wikia.nocookie.net/gensin-impact/images/8/86/Ushi_Summon.png/revision/latest?cb=20230414203854', lampada: 'https://wikistatic.bittopup.com/assets/UI/gcg/UI_Gcg_CardFace_Modify_Constellation_Dori.png', reflexo: 'https://static.wikia.nocookie.net/gensin-impact/images/1/18/Prophecy_of_Submersion_Equipment_Card.png/revision/latest?cb=20240105094139', gouba: 'https://wikistatic.bittopup.com/assets/UI/gcg/UI_Gcg_CardFace_Modify_Talent_Xiangling.png', melodia: 'https://static.wikia.nocookie.net/gensin-impact/images/2/2e/Glorious_Season_Equipment_Card.png/revision/latest?cb=20221205102338', ventos: 'https://static.wikia.nocookie.net/gensin-impact/images/6/6f/Embrace_of_Winds_Equipment_Card.png/revision/latest?cb=20230519022031', flor: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeW0CmjzIGEyGbrsOBA1BNWYocP5ZP0UoyIiFLJeLZxg&s=10', escudo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYR4VtFPTl1bAaBcg21gzTTQCD7hQ7yhM7wqPHuUoeX1hvOzPzl0zkcFk&s=10', bakakura: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLPXAbUNl9S_St0XjUJ9TUWi60u7ByrbKebgRmQEMtjg&s=10', oz: 'https://static.wikia.nocookie.net/gensin-impact/images/1/13/Oz_Summon.png/revision/latest?cb=20221209140755', ventos: 'https://static.wikia.nocookie.net/gensin-impact/images/6/6f/Embrace_of_Winds_Equipment_Card.png/revision/latest?cb=20230519022031', salon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2MFRU-Nzj5yM237H-O35oR3vNSFyTfuX51lgUkMr-1Q&s=10', lamina: 'https://wikistatic.bittopup.com/assets/UI/gcg/UI_Gcg_CardFace_Modify_Talent_Eula.png', anel: 'https://wikistatic.bittopup.com/assets/UI/gcg/UI_Gcg_CardFace_Modify_Talent_Shinobu.png' };
+const IMG = { diluc: 'https://i.pinimg.com/736x/aa/a6/cb/aaa6cbe01f3d9f5a191b843b4495d9bb.jpg', kaeya: 'https://i.pinimg.com/736x/24/ad/ac/24adace51cf36012475e893ac7d6ee76.jpg', fischl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9vcePCS8K1er47KIJl2RNAgz4Wvdhb-xBekZPNT1H-A&s=10', sucrose: 'https://i.pinimg.com/736x/10/c4/cf/10c4cfa5a0eb314f9a37d8be1152916e.jpg', xiangling: 'https://i.pinimg.com/1200x/5a/ab/c1/5aabc1386b029aacc9d2bd47414ac3fc.jpg', mona: 'https://i.pinimg.com/736x/a1/24/fc/a124fcff172110f97f123786d66c4ca2.jpg', barbara: 'https://i.pinimg.com/736x/6b/ef/28/6bef28931a69f860c774fa9a28dfc955.jpg', venti: 'https://i.pinimg.com/1200x/97/37/7f/97377f2a2dde238f0dd2ce43aea01cf7.jpg', ganyu: 'https://i.pinimg.com/736x/d4/ba/3d/d4ba3d26d86acbd94741d58f247672e4.jpg', eula: 'https://i.pinimg.com/736x/96/fd/cf/96fdcfa951820208b5de030d76e9a707.jpg', noelle: 'https://i.pinimg.com/1200x/14/9d/9a/149d9a899c88bcce707132b4ebc6a546.jpg', durin: 'https://ar-cs.aza.gg/g/genshin_impact/assets/ui/UI_Gcg_CardFace_Char_Avatar_Durin.webp', jean: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn9d0TMc0NCjsO8C2hF65WFDc_ND3fG6CXgq2B2v3Ojw&s=10', yelan: 'https://i.pinimg.com/736x/56/11/70/561170a179f2647d7e977484d90cd3e2.jpg', zibai: 'https://i.pinimg.com/736x/8a/e6/2c/8ae62c9c9ec7950049d24251965d0b3f.jpg', hutao: 'https://i.pinimg.com/736x/d1/07/85/d107857355116378de6a1dbb310383b6.jpg', beidou: 'https://i.pinimg.com/736x/e4/6d/60/e46d609fd6e942386bc12271edd84dd2.jpg', raiden: 'https://i.pinimg.com/1200x/5c/10/15/5c10159740019d0558cae2ef49b87e0f.jpg', kokomi: 'https://i.pinimg.com/736x/ca/a6/37/caa63780d7d86e15e1717bc004e49a8c.jpg', itto: 'https://i.pinimg.com/736x/f7/78/11/f778115c0c2bed8fc0e65b2401f73bcb.jpg', kuki: 'https://i.pinimg.com/736x/0c/ec/f8/0cecf8ee6dc4da2d11a3e352cc96df49.jpg', cyno: 'https://i.pinimg.com/1200x/76/54/7c/76547cf42d86c960b5538fae28640468.jpg', nilou: 'https://i.pinimg.com/736x/de/19/0c/de190c64672ed43707e027df37e3aa39.jpg', dori: 'https://i.pinimg.com/736x/d9/fd/8c/d9fd8c1cd25b219a8ff3ef3324b2a086.jpg', dehya: 'https://i.pinimg.com/736x/80/a3/5c/80a35c97bdf6fc646ddaf59a0476c1f2.jpg', furina: 'https://i.pinimg.com/736x/17/21/21/172121e32f372649e8ac6ff450a726d7.jpg', navia: 'https://i.pinimg.com/736x/65/7f/f1/657ff1450f4c9b0c60e6166d49243efa.jpg', wriothesley: 'https://i.pinimg.com/736x/e0/af/1c/e0af1ca21293402585ab2ac4ec6b697a.jpg', arlecchino: 'https://i.pinimg.com/736x/53/39/dd/5339ddba5764b61d89ef33056df1b533.jpg', skirk: 'https://i.pinimg.com/736x/ca/a0/f1/caa0f12cbe69d1e367582950ffd12877.jpg', mavuika: 'https://i.pinimg.com/736x/f1/96/3e/f1963e0faa5cedf0382a26b17ad40caa.jpg', chasca: 'https://i.pinimg.com/736x/bc/69/86/bc6986d7a916ac0d11d759c7db1b5315.jpg', xilonen: 'https://i.pinimg.com/736x/41/19/49/411949991db0234182c52989d4c2eb17.jpg', kinich: 'https://i.pinimg.com/736x/16/12/98/1612980c0d28034815f48d6a9f51d199.jpg', lauma: 'https://i.pinimg.com/736x/e3/45/fc/e345fc130e02feb11d64fc15f6b0f240.jpg', columbina: 'https://i.pinimg.com/736x/5e/85/1a/5e851abeb23c7552f850be6cc3e09338.jpg', flins: 'https://i.pinimg.com/736x/09/5b/da/095bdaa24f0d7c9af6b69002cb6bbbf9.jpg', nefer: 'https://i.pinimg.com/736x/96/b3/54/96b3544f1e5cb5ec6cecd9621d301d91.jpg', olho: 'https://static.wikia.nocookie.net/gensin-impact/images/c/c5/Eye_of_Stormy_Judgment_Summon.png/revision/latest?cb=20230525000538', ushi: 'https://static.wikia.nocookie.net/gensin-impact/images/8/86/Ushi_Summon.png/revision/latest?cb=20230414203854', lampada: 'https://wikistatic.bittopup.com/assets/UI/gcg/UI_Gcg_CardFace_Modify_Constellation_Dori.png', reflexo: 'https://static.wikia.nocookie.net/gensin-impact/images/1/18/Prophecy_of_Submersion_Equipment_Card.png/revision/latest?cb=20240105094139', gouba: 'https://wikistatic.bittopup.com/assets/UI/gcg/UI_Gcg_CardFace_Modify_Talent_Xiangling.png', melodia: 'https://static.wikia.nocookie.net/gensin-impact/images/2/2e/Glorious_Season_Equipment_Card.png/revision/latest?cb=20221205102338', ventos: 'https://static.wikia.nocookie.net/gensin-impact/images/6/6f/Embrace_of_Winds_Equipment_Card.png/revision/latest?cb=20230519022031', flor: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeW0CmjzIGEyGbrsOBA1BNWYocP5ZP0UoyIiFLJeLZxg&s=10', escudo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYR4VtFPTl1bAaBcg21gzTTQCD7hQ7yhM7wqPHuUoeX1hvOzPzl0zkcFk&s=10', bakakura: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLPXAbUNl9S_St0XjUJ9TUWi60u7ByrbKebgRmQEMtjg&s=10', oz: 'https://static.wikia.nocookie.net/gensin-impact/images/1/13/Oz_Summon.png/revision/latest?cb=20221209140755', ventos: 'https://static.wikia.nocookie.net/gensin-impact/images/6/6f/Embrace_of_Winds_Equipment_Card.png/revision/latest?cb=20230519022031', salon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2MFRU-Nzj5yM237H-O35oR3vNSFyTfuX51lgUkMr-1Q&s=10', lamina: 'https://wikistatic.bittopup.com/assets/UI/gcg/UI_Gcg_CardFace_Modify_Talent_Eula.png', anel: 'https://wikistatic.bittopup.com/assets/UI/gcg/UI_Gcg_CardFace_Modify_Talent_Shinobu.png', zhongli: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPyeFyA8wGNd5qWzvAQChPH4fzYieBmyH9eR_qiCrUw&s=10', ayaka: 'https://i.pinimg.com/1200x/00/59/9b/00599bd94deca124137f3f44e45b0b6e.jpg', lanyan: 'https://i.pinimg.com/736x/0b/eb/38/0beb38738374fa3b4cf6f9a33404ca88.jpg', varesa: 'https://i.pinimg.com/736x/71/05/1f/71051f068efd0d80dca8ae2a0cc3ede9.jpg', diona: 'https://i.pinimg.com/736x/cf/61/20/cf612016aa3e672707e659bff57a5e7b.jpg' };
 let UP = {}; try { UP = JSON.parse(localStorage.getItem('gi_up') || '{}') } catch (e) { };
 const photo = k => UP[k] || IMG[k] || '';
 const saveUp = () => { try { localStorage.setItem('gi_up', JSON.stringify(UP)) } catch (e) { } };
@@ -447,14 +488,15 @@ const sl = ms => new Promise(r => setTimeout(r, ms));
 const st = document.getElementById('st');
 let G;
 function init() {
-    musica('batalha', true); 
-    const ids = Object.keys(T).sort(() => Math.random() - .5); 
-    SCR = 'game'; 
-    G = { tg: null, r: 1, p: mk(SV.team), o: mk(ids.slice(0, 3)), 
+    musica('batalha', true);
+    const ids = Object.keys(T).sort(() => Math.random() - .5);
+    SCR = 'game';
+    G = {
+        tg: null, r: 1, p: mk(SV.team), o: mk(ids.slice(0, 3)),
         turn: 'p', busy: 0, over: null, pops: [],
-        opp: escolheOp(), 
-        log: 'Sua vez! Gaste energia em ações.' 
-    }; 
+        opp: escolheOp(),
+        log: 'Sua vez! Gaste energia em ações.'
+    };
     render();
 }
 
@@ -621,8 +663,8 @@ async function endRound() {
     for (const [s, f] of [[G.p, G.o], [G.o, G.p]]) {
         for (const m of [...s.sm]) {
             if (!s.sm.includes(m)) continue;
-            say(`${m.n} ataca!`); if (m.d) hit(f, m.el, m.d, s === G.p ? tgi() : undefined); 
-            if (m.cura) heal(s, m.cura, m.curaAlvo || 'fraco'); 
+            say(`${m.n} ataca!`); if (m.d) hit(f, m.el, m.d, s === G.p ? tgi() : undefined);
+            if (m.cura) heal(s, m.cura, m.curaAlvo || 'fraco');
             m.u--; render(); if (chk()) return;
             await sl(IA.pos); if (off()) return;
         }
@@ -675,7 +717,7 @@ st.onclick = e => {
     const u = g('.up'); if (u) return pick(u.dataset.up);
     if (SCR == 'home') return hclick(g);
     if (g('#hm')) return home();
-    if (g('#ab')) { if (G.conf) { G.dead = 1; return home() } G.conf = 1; return render() } 
+    if (g('#ab')) { if (G.conf) { G.dead = 1; return home() } G.conf = 1; return render() }
     if (G.conf) { G.conf = 0; render() }
     if (G.turn != 'p' || G.busy || G.over) return;
     const tg = g('[data-tg]');
