@@ -31,6 +31,8 @@ const SWIRL = {
     elementos: ['pyro', 'hydro', 'electro', 'cryo']    // Geo e Dendro NÃO fazem Redemoinho
 };
 
+const PERF_IGNORA_ESCUDO = true;  
+
 const T = {
     diluc: {
         n: 'Diluc', e: '🦅', el: 'pyro', mx: 3, m: [
@@ -147,7 +149,7 @@ const T = {
     yelan: {
         n: 'Yelan', e: '🎲', el: 'hydro', mx: 2, m: [
             { n: 'Flechas Ocultas', c: 2, el: 'phys', d: 2 },
-            { n: 'Fio das Sombras', c: 3, el: 'hydro', d: 4 },
+            { n: 'Fio das Sombras', c: 3, el: 'hydro', d: 4, pierce: 1 },
             { n: 'Lance da Sorte Oculta', c: 3, el: 'hydro', d: 4, b: 1 }
         ]
     },
@@ -360,8 +362,32 @@ const SM = {
 
 const PRECO = { diluc: 0, kaeya: 0, fischl: 0, xiangling: 10, sucrose: 8, barbara: 9, mona: 10, venti: 10, ganyu: 15, noelle: 9, eula: 16, durin: 15, jean: 10, yelan: 16, zibai: 16, hutao: 15, beidou: 14, raiden: 16, kokomi: 15, itto: 14, kuki: 15, cyno: 14, nilou: 15, dori: 14, dehya: 14, furina: 16, navia: 15, wriothesley: 14, arlecchino: 16, skirk: 16, mavuika: 16, chasca: 15, xilonen: 14, kinich: 14, lauma: 14, columbina: 16, flins: 16, nefer: 15 };
 
+const OPONENTES = [
+    { n: 'Hilichurl Estranho', img: 'assets/oponentes/hilichurl-estranho.png' },
+    { n: 'Rhinedottir', img: 'assets/oponentes/rhinedottir.png', chande: 2 },
+    { n: 'Operativa Fatui', img: 'assets/oponentes/fatuus2.webp' },
+    { n: 'Cão da Fenda', img: 'assets/oponentes/cao.webp' },
+    { n: 'Mago do Abismo', img: 'assets/oponentes/abyssmage-cryo.webp' },
+    { n: 'Mago do Abismo', img: 'assets/oponentes/abyssmage-pyro.png' },
+    { n: 'Oficial Fatui', img: 'assets/oponentes/fatuus.webp' },
+    { n: 'Eremita dos Ventos', img: 'assets/oponentes/eremita.webp' },
+    { n: 'Signora', img: 'assets/oponentes/signora.avif' },
+    { n: 'Rei e Rainha', img: 'assets/oponentes/xadrez.webp' }
+];
+
+let ULT_OP = -1;
+function escolheOp() {
+    if (!OPONENTES.length) return null;
+    const fixo = OPONENTES.reduce((s, o) => s + (o.chance || 0), 0), livres = OPONENTES.filter(o => o.chance == null).length;
+    const w = OPONENTES.map(o => o.chance != null ? o.chance : (livres ? Math.max(0, 100 - fixo) / livres : 0));
+    const sorteio = () => { let r = Math.random() * w.reduce((a, b) => a + b, 0); for (let i = 0; i < w.length; i++) { r -= w[i]; if (r < 0) return i } return w.length - 1 };
+    let i = sorteio();
+    for (let t = 0; t < 20 && OPONENTES.length > 1 && i == ULT_OP; t++) i = sorteio();   // evita repetir o da última partida
+    ULT_OP = i; return OPONENTES[i];
+}
+
 const MOEDAS = { vitoria: 10, derrota: 5, porVivo: 1 };
-const ENERGIA = 10;
+const ENERGIA = 9;
 
 const BGS = { fontaine: 'Fontaine', inazuma: 'Inazuma', liyue: 'Liyue', natlan: 'Natlan', nodkrai: 'Nod-Krai', sumeru: 'Sumeru' };
 
@@ -379,6 +405,18 @@ SV.bgs = SV.bgs || []; SV.bg = SV.bg || null;
 
 const save = () => { try { localStorage.setItem('gi_save', JSON.stringify(SV)) } catch (e) { } };
 const refresh = () => SCR == 'home' ? home() : render();
+
+function perf(f, n, exc) {
+    f.ch.forEach((t, j) => {
+        if (j == exc || t.hp <= 0) return;
+        let x = n;
+        if (!PERF_IGNORA_ESCUDO && t.sh > 0) { const a = Math.min(t.sh, x); t.sh -= a; x -= a }
+        t.hp = Math.max(0, t.hp - x);
+        G.pops.push({ s: f === G.p ? 'p' : 'o', i: j, t: x, r: 'Perfurante' });
+        if (t.hp <= 0) { t.au = null; t.sh = 0; f.sm = f.sm.filter(y => y.own !== j) }
+    });
+    autoSw(f);
+}
 
 function heal(s, n, modo) {
     const vivos = s.ch.map((_, i) => i).filter(i => s.ch[i].hp > 0);
@@ -413,7 +451,8 @@ function init() {
     const ids = Object.keys(T).sort(() => Math.random() - .5); 
     SCR = 'game'; 
     G = { tg: null, r: 1, p: mk(SV.team), o: mk(ids.slice(0, 3)), 
-        turn: 'p', busy: 0, over: null, pops: [], 
+        turn: 'p', busy: 0, over: null, pops: [],
+        opp: escolheOp(), 
         log: 'Sua vez! Gaste energia em ações.' 
     }; 
     render();
@@ -502,47 +541,6 @@ function aiPlan(o, p) {
     return best && best.first;                               // { ci, mi, ti, al } — o endRound já usa esse formato
 }
 
-/* function aiPlan(o, p) {
-    const vivosP = p.ch.map((_, i) => i).filter(i => p.ch[i].hp > 0);
-    const fraco = o.ch.map((_, i) => i).filter(i => o.ch[i].hp > 0).sort((a, b) => (o.ch[a].hp + (o.ch[a].sh || 0) * 2) - (o.ch[b].hp + (o.ch[b].sh || 0) * 2))[0];
-    let best = null;
-    o.ch.forEach((c, ci) => {
-        if (c.hp <= 0) return;
-        const t = T[c.k], sw = ci == o.a ? 0 : 1, pool = o.pool - sw;
-        t.m.forEach((m, mi) => {
-            if (pool < m.c || (m.b && c.cg < t.mx)) return;
-            const el = m.el == 'phys' && c.im ? c.im.el : m.el;
-            const d = m.d > 0 ? m.d + (c.im ? c.im.d : 0) + (o.bf || 0) : 0;
-            const resto = pool - m.c;
-            let base = 0;
-            if (m.b) base += 2; else if (c.cg < t.mx) base += c.cg == t.mx - 1 ? 1 : .6;     // acumular carga
-            if (m.sm) { const S = SM[m.sm], x = o.sm.find(y => y.n == S.n), us = x ? Math.max(0, S.u - x.u) : S.u; base += (S.d * 1.5 + (S.cura || 0)) * us * .8 }
-            if (m.cura) base += Math.min(m.cura, (t.hp || 10) - c.hp) * 1.5;
-            if (m.esc) base += Math.min(m.esc, 3) * 1.2;
-            if (m.buff) base += m.buff * 2.5 * (resto >= 2 ? 1 : .3);                       // buff só vale se ainda der para atacar
-            if (m.imb) base += (m.imb.d * 2 + 2) * (resto >= 2 ? 1 : .4);
-            if (resto == 1) base -= 1.2;                                                     // sobra 1 de energia: desperdício
-            const alvos = d > 0 ? vivosP : [p.a];
-            alvos.forEach(ti => {
-                const tg = p.ch[ti]; let v = base;
-                if (d > 0) {
-                    const b = est(p, ti, el), tot = Math.max(0, d - (tg.sh || 0)) + b;
-                    v += tot * 2.2;
-                    if (tot >= tg.hp) v += 18 + p.sm.filter(x => x.own === ti).length * 3; else v += (10 - tg.hp) * .35;
-                    if (b > 0) v += 1.5;
-                    else if (el != 'phys' && el != 'anemo' && !tg.au) v += .8;               // prepara reação para o próximo ataque
-                    v += (tg.cg / T[tg.k].mx) * 2;                                           // enfraquece quem está perto da explosão
-                    if (el == 'anemo' && tg.au) v += [ti - 1, ti + 1].filter(j => p.ch[j] && p.ch[j].hp > 0).length * 1.5;
-                }
-                if (m.sw) v += .8;
-                v = v / (m.c + sw) + Math.random() * .3;
-                if (!best || v > best.sc) best = { ci, mi, ti, sc: v, al: fraco };
-            });
-        });
-    });
-    return best;
-}*/
-
 
 function alive(s) { return s.ch.some(c => c.hp > 0) }
 function nextAlive(s) { for (let k = 1; k < 3; k++) { const j = (s.a + k) % 3; if (s.ch[j].hp > 0) return j } return s.a }
@@ -582,7 +580,7 @@ function use(s, f, mi, ti, al) {
     if (m.esc) { const a = s.ch[al ?? s.a]; a.sh = (a.sh || 0) + m.esc; say(`${t.n} usou ${m.n}: escudo em ${T[a.k].n}!`) }
     if (m.sm) { const S = SM[m.sm], x = s.sm.find(y => y.n == S.n); x ? (x.u = S.u, x.own = s.a) : s.sm.push({ ...S, id: m.sm, own: s.a }) }
     if (m.sw) f.fs = 1;
-    if (d > 0) { hit(f, el, d, ti); s.bf = 0 }                                  // o buff é gasto neste ataque
+    if (d > 0) { const ai = (ti != null && f.ch[ti] && f.ch[ti].hp > 0) ? ti : f.a; hit(f, el, d, ti); s.bf = 0; if (m.pierce) perf(f, m.pierce, ai) }
     if (m.buff) { s.bf = (s.bf || 0) + m.buff; say(`${t.n}: o próximo ataque causa +${m.buff} de dano!`) }
     if (m.imb) { c.im = { el: m.imb.el, d: m.imb.d, dur: m.imb.dur || 1 }; say(`${t.n} imbuiu os ataques com ${NM[m.imb.el]}!`) }
 }
@@ -651,10 +649,10 @@ function summ(s, pos) { return s.sm.map((m, i) => sc(m, `${pos};margin-right:${i
 function render() {
     const p = G.p, o = G.o, pc = p.ch[p.a], pt = T[pc.k], my = G.turn == 'p' && !G.busy && !G.over;
     const orbs = Array.from({ length: ENERGIA }, (_, i) => `<i class="${i < p.pool ? '' : 'off'}"></i>`).join('');
-    const ic = ['⚔️', EL[pt.el][0], '✨'];
+    const ic = [`<img class="ei atk-icon" src="assets/atk.png" alt="Ataque">`, EL[pt.el][0], `<img class="ei atk-icon" src="assets/ult.png" alt="Explosão">`];
     const sk = pt.m.map((m, i) => `<div class="w" data-t="${i}"><button class="sb ${m.b ? 'bu' : ''}" style="--g:conic-gradient(#ffd24a ${m.b ? pc.cg / pt.mx * 360 : 0}deg,#0000 0)" data-m="${i}" ${my && can(p, i) ? '' : 'disabled'}><span>${ic[i]}</span><div class="hex">${m.c}</div></button></div>`).join('');
     st.innerHTML = `
- <div class="bdg" id="ob"><i>🧙</i><div>Oponente<small>${G.turn == 'o' ? 'Agindo...' : 'Aguardando...'}</small></div></div>
+ <div class="bdg" id="ob"><i>${G.opp && G.opp.img ? `<img src="${G.opp.img}" alt="">` : '🧙'}</i><div>${(G.opp && G.opp.n) || 'Oponente'}<small>${G.turn == 'o' ? 'Agindo...' : 'Aguardando...'}</small></div></div>
  <div class="pile" style="top:250px"></div><div class="pile" style="bottom:250px"></div>
  <div class="row" id="orow">${o.ch.map((_, i) => card(o, 'o', i)).join('')}</div>
  ${summ(o, 'top:100px')}
@@ -664,7 +662,7 @@ function render() {
  <div id="lg">${G.log}</div>
  <div class="row" id="prow">${p.ch.map((_, i) => card(p, 'p', i)).join('')}</div>
  ${summ(p, 'bottom:100px')}
- <div class="bdg me" id="pb"><i>🌟</i><div>Viajante<small>${G.turn == 'p' ? 'Agindo...' : 'Aguardando...'}</small></div></div>
+ <div class="bdg me" id="pb"><i><img src="assets/paimon.webp" alt="Nosso icon"></i><div>Viajante<small>${G.turn == 'p' ? 'Agindo...' : 'Aguardando...'}</small></div></div>
  <div id="orbs" title="Sua energia">${orbs}</div>
  <div id="sk">${sk}</div>
  ${G.over ? `<div id="ov"><div>${G.over}</div><div class="rp">Moedas: ${G.prize.b} 🪙 + ${G.prize.n} personagem(ns) vivo(s) = <b>${G.prize.tot} 🪙</b><br>Total: ${SV.coins} 🪙</div><div><button class="btn" id="rs">Duelar novamente</button><button class="btn" id="hm">Página inicial</button></div></div>` : ''}`;
@@ -705,6 +703,7 @@ function showTip() {
     if (m.esc) h += `<p>🛡️ Dá ${m.esc} de escudo a um aliado à sua escolha. O escudo bloqueia dano, exceto o dano extra de reação.</p>`;
     if (m.buff) h += `<p>⬆️ O próximo ataque com dano do seu time (de qualquer personagem) causa +${m.buff}. Vale 1 vez e expira no fim da rodada.</p>`;
     if (m.imb) h += `<p>🌀 Imbuir: os ataques físicos deste personagem viram ${NM[m.imb.el]} e todas as habilidades dele causam +${m.imb.d} de dano por ${m.imb.dur || 1} rodada(s).</p>`;
+    if (m.pierce) h += `<p>🎯 Causa ${m.pierce} de dano perfurante em todos os outros inimigos, em qualquer posição (sem elemento, sem reação).</p>`;
     if (m.sm) { const S = SM[m.sm]; h += `<p>${S.e} Invoca <b>${S.n}</b>: ${S.d} de dano ${NM[S.el]} na fase final, por ${S.u} uso(s).${S.cura ? ' Cura ' + S.cura + ' ao fim da rodada.' : ''} Usar de novo renova os usos.</p>` }
     if (m.sw) h += `<p>🔄 Força o oponente a trocar de personagem.</p>`;
     if (m.el == 'anemo') h += `<p>🌪️ Redemoinho: +1 de dano se o alvo tiver elemento; o elemento é removido e espalhado (1 de dano) nos personagens ao lado do alvo.</p>`;
@@ -718,7 +717,7 @@ st.addEventListener('mouseover', e => { const w = e.target.closest('[data-t]'), 
 st.addEventListener('mouseleave', () => { hov = null; showTip() });
 st.addEventListener('contextmenu', e => { const u = e.target.closest('.up'); if (u) { e.preventDefault(); delete UP[u.dataset.up]; saveUp(); refresh() } });
 
-function mline(t, m, i) { const S = m.sm && SM[m.sm]; return `<div class="mv"><b>${EL[m.el][0]} ${m.n}</b> <i>(${['Ataque Normal', 'Habilidade Elemental', 'Explosão Elemental'][i]})</i><br>💠 Custo ${m.c}${m.b ? ` · ✨ precisa de carga ${t.mx}/${t.mx}` : ' · ◆ +1 de carga'} · 💥 Dano ${m.d} ${NM[m.el]}${m.cura ? ` · 💚 Cura ${m.cura}` : ''} ${m.esc ? ` · 🛡️ Escudo ${m.esc} em um aliado (bloqueia dano, não bloqueia dano de reação)` : ''} ${m.buff ? ` · ⬆️ Próximo ataque do time +${m.buff} de dano (1 uso, expira no fim da rodada)` : ''}${m.imb ? ` · 🌀 Ataques físicos viram ${NM[m.imb.el]} e +${m.imb.d} de dano (${m.imb.dur || 1} rodada)` : ''} ${m.sw ? ' · 🔄 Força troca do oponente' : ''}${S ? `<br>${S.e} Invoca ${S.n}: ${S.d} de dano ${NM[S.el]} por rodada, ${S.u} uso(s)${S.cura ? `, cura ${S.cura}` : ''}` : ''}</div>` }
+function mline(t, m, i) { const S = m.sm && SM[m.sm]; return `<div class="mv"><b>${EL[m.el][0]} ${m.n}</b> <i>(${['Ataque Normal', 'Habilidade Elemental', 'Explosão Elemental'][i]})</i><br>💠 Custo ${m.c}${m.b ? ` · ✨ precisa de carga ${t.mx}/${t.mx}` : ' · ◆ +1 de carga'} · 💥 Dano ${m.d} ${NM[m.el]}${m.cura ? ` · 💚 Cura ${m.cura}` : ''} ${m.esc ? ` · 🛡️ Escudo ${m.esc} em um aliado (bloqueia dano, não bloqueia dano de reação)` : ''} ${m.buff ? ` · ⬆️ Próximo ataque do time +${m.buff} de dano (1 uso, expira no fim da rodada)` : ''}${m.imb ? ` · 🌀 Ataques físicos viram ${NM[m.imb.el]} e +${m.imb.d} de dano (${m.imb.dur || 1} rodada)` : ''} ${m.pierce ? ` · 🎯 ${m.pierce} de dano perfurante em todos os outros inimigos` : ''} ${m.sw ? ' · 🔄 Força troca do oponente' : ''}${S ? `<br>${S.e} Invoca ${S.n}: ${S.d} de dano ${NM[S.el]} por rodada, ${S.u} uso(s)${S.cura ? `, cura ${S.cura}` : ''}` : ''}</div>` }
 
 function applyBg() {
     st.style.backgroundImage = SV.bg ? `linear-gradient(#0003,#0003),url(${bgUrl(SV.bg)})` : '';
@@ -730,40 +729,54 @@ const hdr = () => `<div id="hh"><span><img src="./assets/logo.png" class="logo-j
 const tabs = () => `<div id="tabs"><button class="tab ${TAB == 'chars' ? 'on' : ''}" data-tab="chars">🃏 Personagens</button><button class="tab ${TAB == 'bg' ? 'on' : ''}" data-tab="bg">🖼️ Planos de fundo</button></div>`;
 
 const MUSICA = {
-    menu: ['assets/musica/home/Blue Dream - Yu-Peng Chen.mp3', 'assets/musica/home/Forgotten Epic - Yu-Peng Chen.mp3', 'assets/musica/home/Ethereal Mildness - HOYO-MiX.mp3', 'assets/musica/home/Those Lucid Dreams - HOYO-MiX.mp3', 'assets/musica/home/Feelings Nested in a Seashell - HOYO-MiX.mp3', 'assets/musica/home/Inheritance of an Ancient Name - HOYO-MiX.mp3', 'assets/musica/home/Raven Gloss of Darkness - HOYO-MiX.mp3', 'assets/musica/home/Symposion of Spectacle - HOYO-MiX.mp3', 'assets/musica/home/The Realm Within - Yu-Peng Chen.mp3','assets/musica/home/Nod-Krai - HOYO-MiX.mp3'],                                        // toca em sequência, em loop
+    menu: ['assets/musica/home/Blue Dream - Yu-Peng Chen.mp3', 'assets/musica/home/Forgotten Epic - Yu-Peng Chen.mp3', 'assets/musica/home/Ethereal Mildness - HOYO-MiX.mp3', 'assets/musica/home/Those Lucid Dreams - HOYO-MiX.mp3', 'assets/musica/home/Feelings Nested in a Seashell - HOYO-MiX.mp3', 'assets/musica/home/Inheritance of an Ancient Name - HOYO-MiX.mp3', 'assets/musica/home/Raven Gloss of Darkness - HOYO-MiX.mp3', 'assets/musica/home/Symposion of Spectacle - HOYO-MiX.mp3', 'assets/musica/home/The Realm Within - Yu-Peng Chen.mp3', ''],                                        // toca em sequência, em loop
     batalha: ['assets/musica/battle/Undersea Encounters - HOYO-MiX.mp3', 'assets/musica/battle/Lamentation et Triomphe - HOYO-MiX.mp3', 'assets/musica/battle/Overlord of the Thunderstorm - Yu-Peng Chen.mp3', 'assets/musica/battle/Photon of Fluctuation - Yu-Peng Chen.mp3', 'assets/musica/battle/Rapid as Wildfires - Yu-Peng Chen.mp3', 'assets/musica/battle/Rondeau des fleurs et des rapieres - HOYO-MiX.mp3', 'assets/musica/battle/Seething Animosity - HOYO-MiX.mp3', 'assets/musica/battle/Swirls of the Stream - HOYO-MiX.mp3', 'assets/musica/battle/To Light the Aeon Dark - HOYO-MiX.mp3', 'assets/musica/battle/Undersea Encounters - HOYO-MiX.mp3']  // sorteia uma; ao acabar, sorteia outra
 };
 
 const VOL_BASE = 0.3;      // volume máximo da música (0 a 1). O controle da tela abaixa a partir daqui até zero.
-const MUS = { vol: 1, mudo: false, a: null, modo: null, i: -1, on: false };
+const MUS = {
+    vol: 1, mudo: false, modo: null, on: false,
+    s: { menu: { a: null, i: -1, fila: [] }, batalha: { a: null, i: -1, fila: [] } }   // cada lista guarda a sua música atual
+};
 try { Object.assign(MUS, JSON.parse(localStorage.getItem('gi_mus') || '{}')) } catch (e) { }
 const volFinal = () => MUS.mudo ? 0 : VOL_BASE * MUS.vol;
 const salvaMus = () => { try { localStorage.setItem('gi_mus', JSON.stringify({ vol: MUS.vol, mudo: MUS.mudo })) } catch (e) { } };
-function proxMusica() {
-    const L = MUSICA[MUS.modo]; if (!L || !L.length) return;
-    let i = MUS.i;
-    if (MUS.modo == 'batalha') { i = Math.random() * L.length | 0; if (L.length > 1) while (i == MUS.i) i = Math.random() * L.length | 0 }
-    else i = (i + 1) % L.length;
-    MUS.i = i;
-    if (MUS.a) { MUS.a.onended = null; MUS.a.pause() }
-    const a = new Audio(L[i]); a.volume = volFinal(); a.onended = proxMusica; MUS.a = a;
+
+function proxIdx(S, n) {
+    if (!S.fila.length) {
+        const f = [...Array(n).keys()];
+        for (let k = n - 1; k > 0; k--) { const j = Math.random() * (k + 1) | 0;[f[k], f[j]] = [f[j], f[k]] }
+        if (n > 1 && f[0] == S.i) f.push(f.shift());
+        S.fila = f;
+    }
+    return S.fila.shift();
+}
+function tocarProx(modo) {
+    const S = MUS.s[modo], L = MUSICA[modo]; if (!L || !L.length) return;
+    if (S.a) { S.a.onended = null; S.a.pause() }
+    S.i = proxIdx(S, L.length);
+    const a = new Audio(L[S.i]); a.volume = volFinal(); a.onended = () => { if (MUS.modo == modo) tocarProx(modo) }; S.a = a;
     a.play().catch(() => { });
 }
-
-function musica(modo, forcar) {                // modo: 'menu' ou 'batalha'
+// 'menu' ou 'batalha'. Trocar de modo PAUSA a música atual sem perder o ponto; voltar para o menu continua de onde parou.
+// forcar = true começa uma música nova da lista (usado ao iniciar cada partida).
+function musica(modo, forcar) {
     if (MUS.modo == modo && !forcar) return;
-    MUS.modo = modo; MUS.i = -1;
-    if (MUS.on) proxMusica();
+    const ant = MUS.s[MUS.modo]; if (ant && ant.a) ant.a.pause();
+    MUS.modo = modo;
+    if (!MUS.on) return;
+    const S = MUS.s[modo];
+    if (forcar || !S.a || S.a.ended) tocarProx(modo); else S.a.play().catch(() => { });
 }
 
-addEventListener('pointerdown', () => { if (!MUS.on) { MUS.on = true; proxMusica() } });
+addEventListener('pointerdown', () => { if (!MUS.on) { MUS.on = true; if (MUS.modo && !MUS.s[MUS.modo].a) tocarProx(MUS.modo) } });
 (function () {                                  // botãozinho de mutar + controle de volume (canto superior direito)
     const d = document.createElement('div'); d.id = 'mus';
     d.innerHTML = '<button id="mt" title="Mutar / ativar música">🔊</button><input id="mv" type="range" min="0" max="100" value="100" title="Volume da música">';
     document.body.appendChild(d);
     const mt = d.querySelector('#mt'), mv = d.querySelector('#mv');
     const ui = () => { mv.value = MUS.mudo ? 0 : Math.round(MUS.vol * 100); mt.textContent = MUS.mudo || MUS.vol == 0 ? '🔇' : MUS.vol < .5 ? '🔉' : '🔊' };
-    const ap = () => { if (MUS.a) MUS.a.volume = volFinal(); ui(); salvaMus() };
+    const ap = () => { Object.values(MUS.s).forEach(S => { if (S.a) S.a.volume = volFinal() }); ui(); salvaMus() };
     mt.onclick = () => { MUS.mudo = !MUS.mudo; if (!MUS.mudo && MUS.vol == 0) MUS.vol = .5; ap() };
     mv.oninput = () => { MUS.vol = mv.value / 100; MUS.mudo = false; ap() };
     ui();
