@@ -730,11 +730,11 @@ const hdr = () => `<div id="hh"><span><img src="./assets/logo.png" class="logo-j
 const tabs = () => `<div id="tabs"><button class="tab ${TAB == 'chars' ? 'on' : ''}" data-tab="chars">🃏 Personagens</button><button class="tab ${TAB == 'bg' ? 'on' : ''}" data-tab="bg">🖼️ Planos de fundo</button></div>`;
 
 const MUSICA = {
-    menu: ['assets/musica/menu-1.mp3', 'assets/musica/menu-2.mp3'],                                        // toca em sequência, em loop
-    batalha: ['assets/musica/batalha-1.mp3', 'assets/musica/batalha-2.mp3', 'assets/musica/batalha-3.mp3']  // sorteia uma; ao acabar, sorteia outra
+    menu: ['assets/musica/home/Blue Dream - Yu-Peng Chen.mp3', 'assets/musica/home/Forgotten Epic - Yu-Peng Chen.mp3', 'assets/musica/home/Ethereal Mildness - HOYO-MiX.mp3', 'assets/musica/home/Those Lucid Dreams - HOYO-MiX.mp3', 'assets/musica/home/Feelings Nested in a Seashell - HOYO-MiX.mp3', 'assets/musica/home/Inheritance of an Ancient Name - HOYO-MiX.mp3', 'assets/musica/home/Raven Gloss of Darkness - HOYO-MiX.mp3', 'assets/musica/home/Symposion of Spectacle - HOYO-MiX.mp3', 'assets/musica/home/The Realm Within - Yu-Peng Chen.mp3','assets/musica/home/Nod-Krai - HOYO-MiX.mp3'],                                        // toca em sequência, em loop
+    batalha: ['assets/musica/battle/Undersea Encounters - HOYO-MiX.mp3', 'assets/musica/battle/Lamentation et Triomphe - HOYO-MiX.mp3', 'assets/musica/battle/Overlord of the Thunderstorm - Yu-Peng Chen.mp3', 'assets/musica/battle/Photon of Fluctuation - Yu-Peng Chen.mp3', 'assets/musica/battle/Rapid as Wildfires - Yu-Peng Chen.mp3', 'assets/musica/battle/Rondeau des fleurs et des rapieres - HOYO-MiX.mp3', 'assets/musica/battle/Seething Animosity - HOYO-MiX.mp3', 'assets/musica/battle/Swirls of the Stream - HOYO-MiX.mp3', 'assets/musica/battle/To Light the Aeon Dark - HOYO-MiX.mp3', 'assets/musica/battle/Undersea Encounters - HOYO-MiX.mp3']  // sorteia uma; ao acabar, sorteia outra
 };
 
-const VOL_BASE = 0.2;      // volume máximo da música (0 a 1). O controle da tela abaixa a partir daqui até zero.
+const VOL_BASE = 0.3;      // volume máximo da música (0 a 1). O controle da tela abaixa a partir daqui até zero.
 const MUS = { vol: 1, mudo: false, a: null, modo: null, i: -1, on: false };
 try { Object.assign(MUS, JSON.parse(localStorage.getItem('gi_mus') || '{}')) } catch (e) { }
 const volFinal = () => MUS.mudo ? 0 : VOL_BASE * MUS.vol;
